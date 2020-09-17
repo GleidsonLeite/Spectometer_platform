@@ -1,3 +1,11 @@
+/**
+ * This class is used to control StepMotor 28BYJ48 with a Driver ULN2003A.
+ * you should use two buttons to control the rotation's direction (clockwise and
+ * anticlockwise).
+ *  
+ * TODO: Implement a distance sensor and the limits until the platform (with the
+ * 28BYH48 coubled) reaches to that one.
+*/
 #include <Arduino.h>
 #include "StepMotor28BYJ48.h"
 
@@ -43,8 +51,8 @@ void StepMotor28BYJ48::setMotorPins(
     this->motor = new Stepper(
         this->STEPS_PER_REVOLUTION,
         this->IN1_PIN,
-        this->IN2_PIN,
         this->IN3_PIN,
+        this->IN2_PIN,
         this->IN4_PIN);
 }
 
@@ -77,10 +85,10 @@ void StepMotor28BYJ48::setButtonControl(int CLOCKWISE_BUTTON_PIN,
                                         int ANTICLOCKWISE_BUTTON_PIN)
 {
     this->CLOCKWISE_BUTTON_PIN = CLOCKWISE_BUTTON_PIN;
-    pinMode(this->CLOCKWISE_BUTTON_PIN, INPUT);
+    pinMode(this->CLOCKWISE_BUTTON_PIN, INPUT_PULLUP);
 
     this->ANTICLOCKWISE_BUTTON_PIN = ANTICLOCKWISE_BUTTON_PIN;
-    pinMode(this->ANTICLOCKWISE_BUTTON_PIN, INPUT);
+    pinMode(this->ANTICLOCKWISE_BUTTON_PIN, INPUT_PULLUP);
 }
 
 int StepMotor28BYJ48::get_CLOCKWISE_BUTTON_PIN()
@@ -129,17 +137,15 @@ void StepMotor28BYJ48::listenButtons()
     byte clockwiseButtonState = digitalRead(this->CLOCKWISE_BUTTON_PIN);
     byte anticlockwiseButtonState = digitalRead(this->ANTICLOCKWISE_BUTTON_PIN);
 
-    if (clockwiseButtonState)
+    if (!clockwiseButtonState)
     {
         rotateClockWise();
         this->inactive_time = millis();
-    }else if (anticlockwiseButtonState)
+    }else if (!anticlockwiseButtonState)
     {
         rotateAntiClockWise();
         this->inactive_time = millis();
     }
-    
-
     if ((millis()-this->inactive_time)>5000) putToSleep() ;
 }
 

@@ -1,31 +1,71 @@
 #include <Arduino.h>
 #include "StepMotor28BYJ48.h"
 
-// STEP MOTOR 
 const int STEPS_PER_REVOLUTION = 2048;
-
-#define IN1 22
-#define IN2 23
-#define IN3 24
-#define IN4 25
-
-#define STEP_LENGTH 5
-#define CONTROL_BUTTON_1 2
-#define CONTROL_BUTTON_2 3
+#define STEP_LENGTH 10
 #define SPEED 15
-byte controlButtonState = 0;
 
-StepMotor28BYJ48 motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION, IN1, IN3, IN2, IN4, 
-  SPEED, STEP_LENGTH, CONTROL_BUTTON_1, CONTROL_BUTTON_2);
+#define IN1_COLIMADORA 34
+#define IN2_COLIMADORA 36
+#define IN3_COLIMADORA 38
+#define IN4_COLIMADORA 40
 
-unsigned long time;
+#define UP_BUTTON_COLIMADORA 48
+#define DOWN_BUTTON_COLIMADORA 50
+
+StepMotor28BYJ48 colimadora_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION, 
+IN1_COLIMADORA, IN2_COLIMADORA, IN3_COLIMADORA, IN4_COLIMADORA, 
+  SPEED, STEP_LENGTH, UP_BUTTON_COLIMADORA, DOWN_BUTTON_COLIMADORA);
+
+
+#define IN1_PRISMA 27
+#define IN2_PRISMA 29
+#define IN3_PRISMA 31
+#define IN4_PRISMA 33
+
+#define UP_BUTTON_PRISMA 49
+#define DOWN_BUTTON_PRISMA 51
+
+StepMotor28BYJ48 prisma_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION, 
+IN1_PRISMA, IN2_PRISMA, IN3_PRISMA, IN4_PRISMA, 
+  SPEED, STEP_LENGTH, UP_BUTTON_PRISMA, DOWN_BUTTON_PRISMA);
+
+#define IN1_CILINDRICA 26
+#define IN2_CILINDRICA 28
+#define IN3_CILINDRICA 30
+#define IN4_CILINDRICA 32
+
+#define UP_BUTTON_CILINDRICA 42
+#define DOWN_BUTTON_CILINDRICA 44
+
+StepMotor28BYJ48 cilindrica_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION, 
+IN1_CILINDRICA, IN2_CILINDRICA, IN3_CILINDRICA, IN4_CILINDRICA, 
+  SPEED, STEP_LENGTH, UP_BUTTON_CILINDRICA, DOWN_BUTTON_CILINDRICA);
+
+
+#define IN1_CAMERA 35
+#define IN2_CAMERA 37
+#define IN3_CAMERA 39
+#define IN4_CAMERA 41
+
+#define UP_BUTTON_CAMERA 45
+#define DOWN_BUTTON_CAMERA 43
+
+StepMotor28BYJ48 camera_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION, 
+IN1_CAMERA, IN2_CAMERA, IN3_CAMERA, IN4_CAMERA, 
+  SPEED, STEP_LENGTH, UP_BUTTON_CAMERA, DOWN_BUTTON_CAMERA);
 
 void setup() {
   Serial.begin(9600);
 }
 
+unsigned long time;
+
 void loop() {
   // time = millis();
-  motor.listenButtons();
+  colimadora_motor.listenButtons();
+  prisma_motor.listenButtons();
+  cilindrica_motor.listenButtons();
+  camera_motor.listenButtons();
   // Serial.println(millis()-time);
 }
