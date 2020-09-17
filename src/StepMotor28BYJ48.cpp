@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include "StepMotor28BYJ48.h"
 
-
 StepMotor28BYJ48::StepMotor28BYJ48(
                 int STEPS_PER_REVOLUTION,
                 int IN1_PIN,
@@ -49,6 +48,31 @@ void StepMotor28BYJ48::setMotorPins(
         this->IN4_PIN);
 }
 
+int StepMotor28BYJ48::get_STEPS_PER_REVOLUTION()
+{
+    return this->STEPS_PER_REVOLUTION;
+}
+
+int StepMotor28BYJ48::get_IN1_PIN()
+{
+    return this->IN1_PIN;
+}
+
+int StepMotor28BYJ48::get_IN2_PIN()
+{
+    return this->IN2_PIN;
+}
+
+int StepMotor28BYJ48::get_IN3_PIN()
+{
+    return this->IN3_PIN;
+}
+
+int StepMotor28BYJ48::get_IN4_PIN()
+{
+    return this->IN4_PIN;
+}
+
 void StepMotor28BYJ48::setButtonControl(int CLOCKWISE_BUTTON_PIN, 
                                         int ANTICLOCKWISE_BUTTON_PIN)
 {
@@ -59,15 +83,35 @@ void StepMotor28BYJ48::setButtonControl(int CLOCKWISE_BUTTON_PIN,
     pinMode(this->ANTICLOCKWISE_BUTTON_PIN, INPUT);
 }
 
+int StepMotor28BYJ48::get_CLOCKWISE_BUTTON_PIN()
+{
+    return this->CLOCKWISE_BUTTON_PIN;
+}
+
+int StepMotor28BYJ48::get_ANTICLOCKWISE_BUTTON_PIN()
+{
+    return this->ANTICLOCKWISE_BUTTON_PIN;
+}
+
 void StepMotor28BYJ48::setStepLength(int step_length)
 {
     this->step_length = step_length;
+}
+
+int StepMotor28BYJ48::getStepLength()
+{
+    return this->step_length;
 }
 
 void StepMotor28BYJ48::setSpeedMotor(int speed_motor)
 {
     this->speed_motor = speed_motor;
     this->motor->setSpeed(this->speed_motor);
+}
+
+int StepMotor28BYJ48::getSpeedMotor()
+{
+    return this->speed_motor;
 }
 
 void StepMotor28BYJ48::rotateClockWise()
@@ -104,6 +148,5 @@ void StepMotor28BYJ48::putToSleep(){
     digitalWrite(this->IN2_PIN, LOW);
     digitalWrite(this->IN3_PIN, LOW);
     digitalWrite(this->IN4_PIN, LOW);
-    // Serial.println("Sleeping");
 }
 

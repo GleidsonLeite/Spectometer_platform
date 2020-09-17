@@ -45,12 +45,23 @@ public:
             int IN3_PIN,
             int IN4_PIN
     );
+
+    int get_STEPS_PER_REVOLUTION();
+    int get_IN1_PIN();
+    int get_IN2_PIN();
+    int get_IN3_PIN();
+    int get_IN4_PIN();
     
     void setButtonControl(int CLOCKWISE_BUTTON_PIN, int ANTICLOCKWISE_BUTTON_PIN);
 
+    int get_CLOCKWISE_BUTTON_PIN();
+    int get_ANTICLOCKWISE_BUTTON_PIN();
+
     void setStepLength(int step_length);
+    int getStepLength();
 
     void setSpeedMotor(int speed_motor);
+    int getSpeedMotor();
 
     void rotateClockWise();
 
