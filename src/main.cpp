@@ -1,7 +1,35 @@
 #include <Arduino.h>
 #include "StepMotor28BYJ48.h"
 #include "StepMotorA4988.h"
+#include <VL53L0XManager.h>
+#include "Adafruit_VL53L0X.h"
 
+// Configurações dos sensores
+
+// Sensores de distância
+
+// struct distanceSensor
+// {
+//   int shutdownPin;
+//   int address;
+//   Adafruit_VL53L0X sensor;
+//   VL53L0X_RangingMeasurementData_t measure;
+//   int measurements[]
+// };
+
+distanceSensor distanceSensors[] = {
+  {
+    2,
+    1,
+    Adafruit_VL53L0X(),
+    VL53L0X_RangingMeasurementData_t(),
+  },
+};
+
+VL53L0XManager distanceSensorsManager = VL53L0XManager(1, distanceSensors);
+
+
+// Configurações de todos os motores
 const int STEPS_PER_REVOLUTION = 2048;
 #define STEP_LENGTH 10
 #define SPEED 15
@@ -71,21 +99,21 @@ StepMotorA4988 feedfoward_camera_motor = StepMotorA4988(
 
 void setup() {
   Serial.begin(9600);
+  distanceSensorsManager.setAddresses();
 }
 
 unsigned long time;
 
 void loop() {
-  time = millis();
-  colimadora_motor.listenButtons();
-  prisma_motor.listenButtons();
-  cilindrica_motor.listenButtons();
-  camera_motor.listenButtons();
-  feedfoward_camera_motor.listenButtons();
-  Serial.println(millis()-time);
-  delay(1000);
-  // feedfoward_camera_motor.rotateClockWise();
-  // delay(3000);
-  // feedfoward_camera_motor.rotateAntiClockWise();
-  // delay(3000);
+  // time = millis();
+  // colimadora_motor.listenButtons();
+  // prisma_motor.listenButtons();
+  // cilindrica_motor.listenButtons();
+  // camera_motor.listenButtons();
+  // feedfoward_camera_motor.listenButtons();
+  // Serial.println(millis()-time);
+  // delay(1000);
+  
+  Serial.println(distanceSensorsManager.getSensorDistance(0));
+
 }

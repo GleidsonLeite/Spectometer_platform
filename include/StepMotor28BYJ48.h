@@ -1,6 +1,6 @@
 #ifndef STEPMOTOR28BYJ48_H
 #define STEPMOTOR28BYJ48_H
-#ifndef ARDUINO_h
+#ifndef ARDUINO_H
 #define ARDUINO_H
 
 #include "Stepper.h"

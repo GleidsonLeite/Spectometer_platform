@@ -1,5 +1,5 @@
-#ifndef STEPMOTORA4988_h
-#define STEPMOTORA4988_h
+#ifndef STEPMOTORA4988_H
+#define STEPMOTORA4988_H
 
 #ifndef ARDUINO_h
 #define ARDUINO_H
