@@ -105,14 +105,14 @@ void setup() {
 unsigned long time;
 
 void loop() {
-  // time = millis();
-  // colimadora_motor.listenButtons();
-  // prisma_motor.listenButtons();
-  // cilindrica_motor.listenButtons();
-  // camera_motor.listenButtons();
-  // feedfoward_camera_motor.listenButtons();
-  // Serial.println(millis()-time);
-  // delay(1000);
+  time = millis();
+  colimadora_motor.listenButtons();
+  prisma_motor.listenButtons();
+  cilindrica_motor.listenButtons();
+  camera_motor.listenButtons();
+  feedfoward_camera_motor.listenButtons();
+  Serial.println(millis()-time);
+  delay(1000);
   
   Serial.println(distanceSensorsManager.getSensorDistance(0));
 
