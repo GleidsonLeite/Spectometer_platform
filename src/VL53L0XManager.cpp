@@ -3,7 +3,7 @@
 
 VL53L0XManager::VL53L0XManager(
     int numberSensors,
-    struct distanceSensor *distanceSensors
+    distanceSensor *distanceSensors
 )
 {
     this->numberSensors = numberSensors;
@@ -19,14 +19,14 @@ void VL53L0XManager::setAddresses()
         digitalWrite(this->distanceSensors[i].shutdownPin, LOW);
     }
 
-    delayMicroseconds(10);
+    delay(10);
 
     for (int i = 0; i < this->numberSensors; i++)
     {
         digitalWrite(this->distanceSensors[i].shutdownPin, HIGH);
     }
 
-    delayMicroseconds(10);
+    delay(10);
 
     for (int i = 0; i < this->numberSensors; i++)
     {
@@ -35,6 +35,7 @@ void VL53L0XManager::setAddresses()
         {
             digitalWrite(this->distanceSensors[j].shutdownPin, LOW);
         }
+        Serial.println(this->distanceSensors[i].address);
         while (!this->distanceSensors[i].sensor.begin(this->distanceSensors[i].address))
         {
             Serial.print("Failed to boot ");
@@ -42,8 +43,10 @@ void VL53L0XManager::setAddresses()
             Serial.print(" VL53L0X Sensor");
             Serial.println("");
         }
-        delayMicroseconds(10);
+        delay(10);
+        Serial.println("soka");
     }
+    Serial.println("Tudo certo!");
 }
 
 uint16_t VL53L0XManager::getSensorDistance(int sensorNumber){

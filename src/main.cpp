@@ -3,6 +3,7 @@
 #include "StepMotorA4988.h"
 #include <VL53L0XManager.h>
 #include "Adafruit_VL53L0X.h"
+#include "Fan.h"
 
 // Configurações dos sensores
 
@@ -19,14 +20,32 @@
 
 distanceSensor distanceSensors[] = {
   {
-    2,
-    1,
+    8,
+    0x30,
+    Adafruit_VL53L0X(),
+    VL53L0X_RangingMeasurementData_t(),
+  },
+  {
+    9,
+    0x31,
+    Adafruit_VL53L0X(),
+    VL53L0X_RangingMeasurementData_t(),
+  },
+  {
+    11,
+    0x32,
+    Adafruit_VL53L0X(),
+    VL53L0X_RangingMeasurementData_t(),
+  },
+  {
+    10,
+    0x33,
     Adafruit_VL53L0X(),
     VL53L0X_RangingMeasurementData_t(),
   },
 };
 
-VL53L0XManager distanceSensorsManager = VL53L0XManager(1, distanceSensors);
+VL53L0XManager distanceSensorsManager = VL53L0XManager(4, distanceSensors);
 
 
 // Configurações de todos os motores
@@ -42,8 +61,8 @@ const int STEPS_PER_REVOLUTION = 2048;
 #define UP_BUTTON_CILINDRICA 42
 #define DOWN_BUTTON_CILINDRICA 44
 
-StepMotor28BYJ48 cilindrica_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION, 
-IN1_CILINDRICA, IN2_CILINDRICA, IN3_CILINDRICA, IN4_CILINDRICA, 
+StepMotor28BYJ48 cilindrica_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION,
+IN1_CILINDRICA, IN2_CILINDRICA, IN3_CILINDRICA, IN4_CILINDRICA,
   SPEED, STEP_LENGTH, UP_BUTTON_CILINDRICA, DOWN_BUTTON_CILINDRICA);
 
 
@@ -55,8 +74,8 @@ IN1_CILINDRICA, IN2_CILINDRICA, IN3_CILINDRICA, IN4_CILINDRICA,
 #define UP_BUTTON_PRISMA 49
 #define DOWN_BUTTON_PRISMA 51
 
-StepMotor28BYJ48 prisma_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION, 
-IN1_PRISMA, IN2_PRISMA, IN3_PRISMA, IN4_PRISMA, 
+StepMotor28BYJ48 prisma_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION,
+IN1_PRISMA, IN2_PRISMA, IN3_PRISMA, IN4_PRISMA,
   SPEED, STEP_LENGTH, UP_BUTTON_PRISMA, DOWN_BUTTON_PRISMA);
 
 #define IN1_COLIMADORA 26
@@ -67,8 +86,8 @@ IN1_PRISMA, IN2_PRISMA, IN3_PRISMA, IN4_PRISMA,
 #define UP_BUTTON_COLIMADORA 48
 #define DOWN_BUTTON_COLIMADORA 50
 
-StepMotor28BYJ48 colimadora_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION, 
-IN1_COLIMADORA, IN2_COLIMADORA, IN3_COLIMADORA, IN4_COLIMADORA, 
+StepMotor28BYJ48 colimadora_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION,
+IN1_COLIMADORA, IN2_COLIMADORA, IN3_COLIMADORA, IN4_COLIMADORA,
   SPEED, STEP_LENGTH, UP_BUTTON_COLIMADORA, DOWN_BUTTON_COLIMADORA);
 
 
@@ -80,8 +99,8 @@ IN1_COLIMADORA, IN2_COLIMADORA, IN3_COLIMADORA, IN4_COLIMADORA,
 #define UP_BUTTON_CAMERA 43
 #define DOWN_BUTTON_CAMERA 45
 
-StepMotor28BYJ48 camera_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION, 
-IN1_CAMERA, IN2_CAMERA, IN3_CAMERA, IN4_CAMERA, 
+StepMotor28BYJ48 camera_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION,
+IN1_CAMERA, IN2_CAMERA, IN3_CAMERA, IN4_CAMERA,
   SPEED, STEP_LENGTH, UP_BUTTON_CAMERA, DOWN_BUTTON_CAMERA);
 
 
@@ -97,23 +116,78 @@ StepMotorA4988 feedfoward_camera_motor = StepMotorA4988(
   FORWARD_BUTTON_CAMERA, BACKWARD_BUTTON_CAMERA
 );
 
+// Relay
+/*
+  Botão que liga é o 2
+  Porta de ligar é o 3
+  e o sensor dht é o 12
+*/
+
+
+
+#define fanRelayPin 4
+#define switchFanButtonPin 2
+#define DHTPin 12
+#define biasTemperature 27
+Fan cooler = Fan(fanRelayPin, switchFanButtonPin, DHTPin, biasTemperature);
+
+void switchFanStatus(){
+  cooler.switchStatus();
+}
+
+ISR(TIMER1_COMPA_vect){
+  cooler.switchStatusByTemperature();
+}
+
 void setup() {
   Serial.begin(9600);
-  distanceSensorsManager.setAddresses();
+  Serial.println("Iniciando aplicacao");
+  // distanceSensorsManager.setAddresses();
+  cooler.configure();
+  attachInterrupt(
+    digitalPinToInterrupt(switchFanButtonPin),
+    switchFanStatus,
+    FALLING
+  );
 }
 
 unsigned long time;
 
 void loop() {
-  time = millis();
+  // time = millis();
   colimadora_motor.listenButtons();
   prisma_motor.listenButtons();
   cilindrica_motor.listenButtons();
   camera_motor.listenButtons();
-  feedfoward_camera_motor.listenButtons();
-  Serial.println(millis()-time);
-  delay(1000);
-  
-  Serial.println(distanceSensorsManager.getSensorDistance(0));
+  // feedfoward_camera_motor.listenButtons();
+  // Serial.println(millis()-time);
+  // delay(1000);
+
+  // for (int i = 0; i < 10; i++)
+  // {
+  //   feedfoward_camera_motor.rotateAntiClockWise();
+  // }
+
+  // delay(1000);
+  // feedfoward_camera_motor.wakeUp();
+  // feedfoward_camera_motor.rotateClockWise();
+  // feedfoward_camera_motor.putToSleep();
+
+
+  // delay(1000);
+
+  // Serial.print("Distancia colimadora: ");
+  // Serial.println(distanceSensorsManager.getSensorDistance(0));
+  // // delay(1000);
+  // Serial.print("Distancia Cilindrica: ");
+  // Serial.println(distanceSensorsManager.getSensorDistance(1));
+  // // delay(1000);
+  // Serial.print("Distancia Camera: ");
+  // Serial.println(distanceSensorsManager.getSensorDistance(2));
+  // // delay(1000);
+  // Serial.print("Distancia Prisma: ");
+  // Serial.println(distanceSensorsManager.getSensorDistance(3));
+  // // delay(1000);
+
 
 }

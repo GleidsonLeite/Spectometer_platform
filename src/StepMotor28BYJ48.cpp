@@ -2,7 +2,7 @@
  * This class is used to control StepMotor 28BYJ48 with a Driver ULN2003A.
  * you should use two buttons to control the rotation's direction (clockwise and
  * anticlockwise).
- *  
+ *
  * TODO: Implement a distance sensor and the limits until the platform (with the
  * 28BYH48 coubled) reaches to that one.
 */
@@ -20,7 +20,7 @@ StepMotor28BYJ48::StepMotor28BYJ48(
                 int CLOCKWISE_BUTTON_PIN,
                 int ANTICLOCKWISE_BUTTON_PIN
             )
-{   
+{
     setMotorPins(STEPS_PER_REVOLUTION, IN1_PIN, IN2_PIN, IN3_PIN, IN4_PIN);
     setButtonControl(CLOCKWISE_BUTTON_PIN, ANTICLOCKWISE_BUTTON_PIN);
     setStepLength(step_length);
@@ -81,7 +81,7 @@ int StepMotor28BYJ48::get_IN4_PIN()
     return this->IN4_PIN;
 }
 
-void StepMotor28BYJ48::setButtonControl(int CLOCKWISE_BUTTON_PIN, 
+void StepMotor28BYJ48::setButtonControl(int CLOCKWISE_BUTTON_PIN,
                                         int ANTICLOCKWISE_BUTTON_PIN)
 {
     this->CLOCKWISE_BUTTON_PIN = CLOCKWISE_BUTTON_PIN;
