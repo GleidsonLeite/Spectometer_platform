@@ -1,3 +1,5 @@
+#ifndef FAN_H
+#define FAN_H
 #ifndef ARDUINO_h
 #define ARDUINO_H
 
@@ -20,4 +22,5 @@ public:
     void configureTimerInterruption();
 };
 
+#endif
 #endif
