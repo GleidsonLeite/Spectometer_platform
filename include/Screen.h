@@ -167,7 +167,7 @@ public:
   void touchFlow(void (*)());
   void drawFlow(uint16_t Measure_Pri_now, uint16_t Measure_Cam_now, uint16_t Measure_LCi_now, uint16_t Measure_LCo_now, float TempC_DHT, float Hum_DHT);
 
-  void setCoolerState(bool state);
+  void setCoolerState(bool state, bool old_state);
 
   void readResistiveTouch();
   bool ISPRESSED();

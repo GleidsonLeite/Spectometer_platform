@@ -13,9 +13,9 @@ Screen::Screen(bool Cooler_State)
   this->oldCooler_State = Cooler_State;
 }
 
-void Screen::setCoolerState(bool state){
+void Screen::setCoolerState(bool state, bool old_state){
   this->Cooler_State = state;
-  this->oldCooler_State = this->Cooler_State;
+  this->oldCooler_State = old_state;
 }
 
 void Screen::readResistiveTouch()
