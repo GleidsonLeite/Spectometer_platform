@@ -1,9 +1,12 @@
 #include <Arduino.h>
+#include <ArduinoJson.h>
+#include <Wire.h>
 #include "StepMotor28BYJ48.h"
 #include "StepMotorA4988.h"
 #include <VL53L0XManager.h>
 #include "Adafruit_VL53L0X.h"
 #include "Fan.h"
+#include "Message.h"
 
 // Configurações dos sensores
 
@@ -20,24 +23,28 @@
 
 distanceSensor distanceSensors[] = {
   {
+    // Colimadora
     8,
     0x30,
     Adafruit_VL53L0X(),
     VL53L0X_RangingMeasurementData_t(),
   },
   {
+    // Cilindrica
     9,
     0x31,
     Adafruit_VL53L0X(),
     VL53L0X_RangingMeasurementData_t(),
   },
   {
+    // Prisma
     11,
     0x32,
     Adafruit_VL53L0X(),
     VL53L0X_RangingMeasurementData_t(),
   },
   {
+    // Camera
     10,
     0x33,
     Adafruit_VL53L0X(),
@@ -139,26 +146,130 @@ ISR(TIMER1_COMPA_vect){
   cooler.switchStatusByTemperature();
 }
 
+/**
+ * Formato do arquivo enviado para o mestre
+ * [
+ *  // sensores de distancia
+ *  {
+ *    id,
+ *    value
+ *  },
+ *  {
+ *    id,
+ *    value
+ *  },
+ *  {
+ *    id,
+ *    value
+ *  },
+ *  {
+ *    id,
+ *    value
+ *  },
+ *  {
+ *    Temperatura,
+ *    Humidade
+ *  }
+ *  {
+ *    coolerIsOn
+ *  }
+ * ]
+*/
+
+Message messenger = Message();
+String message;
+bool messageSent;
+int responseOption;
+
+void sendMessage(String message, int address){
+  Wire.beginTransmission(address);
+  Wire.print(message);
+  Wire.endTransmission();
+}
+
+void responseSlave(int howMany){
+  while(1<Wire.available()){
+    char m = Wire.read();
+  }
+  responseOption = Wire.read();
+  messageSent = false;
+}
+
 void setup() {
+  message = "";
+  messageSent = true;
+  responseOption = 0;
+  Wire.begin(9);
+  Wire.onReceive(responseSlave);
   Serial.begin(9600);
   Serial.println("Iniciando aplicacao");
-  // distanceSensorsManager.setAddresses();
-  cooler.configure();
+  // cooler.configure();
   attachInterrupt(
     digitalPinToInterrupt(switchFanButtonPin),
     switchFanStatus,
     FALLING
   );
+  // distanceSensorsManager.setAddresses();
+
 }
 
 unsigned long time;
 
+
+
 void loop() {
   // time = millis();
-  colimadora_motor.listenButtons();
-  prisma_motor.listenButtons();
-  cilindrica_motor.listenButtons();
-  camera_motor.listenButtons();
+  // colimadora_motor.listenButtons();
+  // prisma_motor.listenButtons();
+  // cilindrica_motor.listenButtons();
+  // camera_motor.listenButtons();
+  Serial.println(responseOption);
+
+  if (responseOption!=0 && !messageSent)
+  {
+    // Serial.println("ola");
+    switch (responseOption)
+    {
+    case 1:
+      Wire.beginTransmission(4);
+      message = messenger.serializeDistanceSensorsData(1, 1, 2, 3, 4);
+      Wire.print(message);
+      Wire.endTransmission();
+      messageSent = true;
+      responseOption = 0;
+      break;
+    case 2:
+      Wire.beginTransmission(4);
+      message = messenger.serializeDistanceSensorsData(1, 1, 2, 3, 4);
+      Wire.print(message);
+      Wire.endTransmission();
+      messageSent = true;
+      responseOption = 0;
+      break;
+    case 3:
+      Wire.beginTransmission(4);
+      message = messenger.serializeDistanceSensorsData(1, 1, 2, 3, 4);
+      Serial.println(message);
+      delay(1000);
+      Wire.print(message);
+      Wire.endTransmission();
+      messageSent = true;
+      responseOption = 0;
+      break;
+    default:
+      break;
+    }
+  }
+
+
+  // sendMessage(messenger.serializeData(1, 2, 3, 4, 5, 6, true), 4);
+  // delay(1000);
+  // dataDoc["sensor1"] = 1;
+  // dataDoc["sensor2"] = 2;
+  // dataDoc["sensor3"] = 3;
+  // dataDoc["sensor4"] = 4;
+  // serializeJson(dataDoc, outputData);
+  // Serial.println(outputData);
   // feedfoward_camera_motor.listenButtons();
   // Serial.println(millis()-time);
   // delay(1000);

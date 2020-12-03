@@ -17,7 +17,7 @@
 #define LCD_CD A2
 #define LCD_WR A1
 #define LCD_RD A0
-#define LCD_RST A4
+#define LCD_RST 1
 
 
 // CONFIGURAÇÃO TFT
@@ -159,13 +159,21 @@ private:
   bool Cooler_State;
   bool oldCooler_State;
   int state_TFT;
+
+  uint16_t Measure_Pri_now;
+  uint16_t Measure_Cam_now;
+  uint16_t Measure_LCi_now;
+  uint16_t Measure_LCo_now;
+  float TempC_DHT;
+  float Hum_DHT;
+
 public:
   Screen(bool Cooler_State);
   void setup();
   void flow();
   // https://forum.arduino.cc/index.php?topic=83211.0
-  void touchFlow(void (*)());
-  void drawFlow(uint16_t Measure_Pri_now, uint16_t Measure_Cam_now, uint16_t Measure_LCi_now, uint16_t Measure_LCo_now, float TempC_DHT, float Hum_DHT);
+  void touchFlow(void (*)(), void (*)(byte option));
+  void drawFlow();
 
   void setCoolerState(bool state, bool old_state);
 
@@ -194,6 +202,12 @@ public:
   void DHTprintHeaders();
   void DHTprintValues(float TempC_DHT, float Hum_DHT);
 
+  void setMeasure_Pri_now(uint16_t Measure_Pri_now);
+  void setMeasure_Cam_now(uint16_t Measure_Cam_now);
+  void setMeasure_LCi_now(uint16_t Measure_LCi_now);
+  void setMeasure_LCo_now(uint16_t Measure_LCo_now);
+  void setTempC_DHT(uint16_t TempC_DHT);
+  void setHum_DHT(uint16_t Measure_Pri_now);
 
 };
 

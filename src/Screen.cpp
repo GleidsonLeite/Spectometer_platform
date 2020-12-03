@@ -7,7 +7,7 @@ Screen::Screen(bool Cooler_State)
   this->state_TFT = INIT_STATE;
 
   this->ts = new TouchScreen(XP, YP, XM, YM, 300);
-  this->tft = new MCUFRIEND_kbv();
+  this->tft = new MCUFRIEND_kbv(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RST);
 
   this->Cooler_State = Cooler_State;
   this->oldCooler_State = Cooler_State;
@@ -243,6 +243,13 @@ void Screen::DHTprintValues(float TempC_DHT, float Hum_DHT) {
 
 void Screen::setup() {
 
+  setMeasure_Pri_now(0);
+  setMeasure_Cam_now(0);
+  setMeasure_LCi_now(0);
+  setMeasure_LCo_now(0);
+  setTempC_DHT(0);
+  setHum_DHT(0);
+
   this->tft->reset();
   delay(500);
   Serial.print("TFT ID: Ox");
@@ -260,7 +267,7 @@ void Screen::setup() {
   delay(3000);
 }
 
-void Screen::touchFlow(void (*switch_CoolerState)()) {
+void Screen::touchFlow(void (*switch_CoolerState)(), void (*requestInfo)(byte option)) {
   if (ISPRESSED()) // touch confirmado
   {
     // Tratamento do ponto
@@ -292,23 +299,26 @@ void Screen::touchFlow(void (*switch_CoolerState)()) {
         changeState_TFT(DHT_STATE_TFT);
         DHTbutton(true);
         delay(BTN_DELAY);
+        (*requestInfo)(2);
       } else if ((tp.y >= LOX_BTN_Y1 && tp.y <= LOX_BTN_Y2) && (tp.x >= LOX_BTN_X1 && tp.x <= LOX_BTN_X2)) {
         // lox button foi pressionado
         changeState_TFT(LOX_STATE_TFT);
         LOXbutton(true);
         delay(BTN_DELAY);
+        (*requestInfo)(1);
       } else if ((tp.y >= COOLER_BTN_Y1 && tp.y <= COOLER_BTN_Y2) && (tp.x >= COOLER_BTN_X1 && tp.x <= COOLER_BTN_X2)) {
         // COOLER button foi pressionado
         coolerButton(true);
         delay(BTN_DELAY);
         while(ISPRESSED()) {} // esperar soltar
         (*switch_CoolerState)();
+        (*requestInfo)(3);
       }
     }
   }
 }
 
-void Screen::drawFlow(uint16_t Measure_Pri_now, uint16_t Measure_Cam_now, uint16_t Measure_LCi_now, uint16_t Measure_LCo_now, float TempC_DHT, float Hum_DHT) {
+void Screen::drawFlow() {
   if (state_change_TFT) {
     state_change_TFT = false;
     this->tft->fillScreen(BLACK);
@@ -341,11 +351,17 @@ void Screen::drawFlow(uint16_t Measure_Pri_now, uint16_t Measure_Cam_now, uint16
   switch (state_TFT)
   {
     case LOX_STATE_TFT:
-      LOXprintValues(Measure_Pri_now, Measure_Cam_now, Measure_LCi_now, Measure_LCo_now);
+      LOXprintValues(this->Measure_Pri_now, this->Measure_Cam_now, this->Measure_LCi_now, this->Measure_LCo_now);
       break;
     case DHT_STATE_TFT:
-      DHTprintValues(TempC_DHT, Hum_DHT);
+      DHTprintValues(this->TempC_DHT, this->Hum_DHT);
       break;
   }
 }
 
+void Screen::setMeasure_Pri_now(uint16_t Measure_Pri_now){this->Measure_Pri_now = Measure_Pri_now;}
+void Screen::setMeasure_Cam_now(uint16_t Measure_Cam_now){this->Measure_Cam_now = Measure_Cam_now;}
+void Screen::setMeasure_LCi_now(uint16_t Measure_LCi_now){this->Measure_LCi_now = Measure_LCi_now;}
+void Screen::setMeasure_LCo_now(uint16_t Measure_LCo_now){this->Measure_LCo_now = Measure_LCo_now;}
+void Screen::setTempC_DHT(uint16_t TempC_DHT){this->TempC_DHT = TempC_DHT;}
+void Screen::setHum_DHT(uint16_t Measure_Pri_now){this->Measure_Pri_now = Measure_Pri_now;}

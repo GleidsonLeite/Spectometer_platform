@@ -27,12 +27,14 @@ void VL53L0XManager::setAddresses()
     }
 
     delay(10);
-
     for (int i = 0; i < this->numberSensors; i++)
     {
+        Serial.print("Sensor: ");
+        Serial.print(i);
         digitalWrite(this->distanceSensors[i].shutdownPin, HIGH);
         for (int j = i+1; j < this->numberSensors; j++)
         {
+            Serial.println(j);
             digitalWrite(this->distanceSensors[j].shutdownPin, LOW);
         }
         Serial.println(this->distanceSensors[i].address);
@@ -44,7 +46,6 @@ void VL53L0XManager::setAddresses()
             Serial.println("");
         }
         delay(10);
-        Serial.println("soka");
     }
     Serial.println("Tudo certo!");
 }
