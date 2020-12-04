@@ -252,9 +252,9 @@ void Screen::setup() {
 
   this->tft->reset();
   delay(500);
-  Serial.print("TFT ID: Ox");
+  // Serial.print("TFT ID: Ox");
   uint16_t ID = this->tft->readID();
-  Serial.println(ID,  HEX);
+  // Serial.println(ID,  HEX);
   this->tft->begin(ID);
   this->tft->fillScreen(BLACK);
   this->tft->setRotation(TOUCH_ORIENTATION);
@@ -281,10 +281,10 @@ void Screen::touchFlow(void (*switch_CoolerState)(), void (*requestInfo)(byte op
     }
 
     // for debug
-    Serial.print("px: ");
-    Serial.print(tp.x);
-    Serial.print("  py: ");
-    Serial.println(tp.y);
+    // Serial.print("px: ");
+    // Serial.print(tp.x);
+    // Serial.print("  py: ");
+    // Serial.println(tp.y);
 
     if (state_TFT != MAIN_STATE_TFT) {
       if ((tp.y >= BACK_BTN_Y1 && tp.y <= BACK_BTN_Y2) && (tp.x >= BACK_BTN_X1 && tp.x <= BACK_BTN_X2)) {

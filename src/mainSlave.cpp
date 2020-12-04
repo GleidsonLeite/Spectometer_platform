@@ -223,8 +223,6 @@ void loop() {
   // prisma_motor.listenButtons();
   // cilindrica_motor.listenButtons();
   // camera_motor.listenButtons();
-  Serial.println(responseOption);
-
   if (responseOption!=0 && !messageSent)
   {
     // Serial.println("ola");
@@ -232,31 +230,34 @@ void loop() {
     {
     case 1:
       Wire.beginTransmission(4);
-      message = messenger.serializeDistanceSensorsData(1, 1, 2, 3, 4);
+      message = messenger.serializeData(0.1, 0.2, 0.3, 0.4, 26, 5, true);
       Wire.print(message);
       Wire.endTransmission();
       messageSent = true;
+      Serial.println(responseOption);
       responseOption = 0;
       break;
     case 2:
       Wire.beginTransmission(4);
-      message = messenger.serializeDistanceSensorsData(1, 1, 2, 3, 4);
+      message = messenger.serializeData(1.1, 1.2, 1.3, 1.4, 26, 5, true);
       Wire.print(message);
       Wire.endTransmission();
       messageSent = true;
+      Serial.println(responseOption);
       responseOption = 0;
       break;
     case 3:
       Wire.beginTransmission(4);
-      message = messenger.serializeDistanceSensorsData(1, 1, 2, 3, 4);
+      message = messenger.serializeData(2.1, 2.2, 2.3, 2.4, 26, 5, true);
       Serial.println(message);
-      delay(1000);
       Wire.print(message);
       Wire.endTransmission();
       messageSent = true;
+      Serial.println(responseOption);
       responseOption = 0;
       break;
     default:
+      Serial.println(responseOption);
       break;
     }
   }

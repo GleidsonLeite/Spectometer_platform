@@ -6,16 +6,16 @@
 
 #include <ArduinoJson.h>
 
+const int capacity = JSON_ARRAY_SIZE(6) + 5*JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(1);
+
 class Message
 {
 private:
+  StaticJsonDocument<capacity> doc;
 public:
   Message();
   String serializeData(int distance1, int distance2, int distance3, int distance4, int temperature, int humidity, bool coolerState);
-  String serializeDistanceSensorsData(int option, int distance1, int distance2, int distance3, int distance4);
-  void handleResponseWire(int howMany);
-  // void (*handleData)(int valueSensor1, int valueSensor2, int valueSensor3, int valueSensor4)
-  void deserializeDistanceSensorsData(char jsonData[]);
+  void deserializeData(char jsonSerialized[]);
 };
 
 #endif
