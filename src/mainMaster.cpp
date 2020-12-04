@@ -15,9 +15,7 @@ Screen screen = Screen(false);
 
 
 void set_Cooler(bool state){
-  oldCooler_State = Cooler_State;
-  Cooler_State = (state || btn_cooler);
-  screen.setCoolerState(Cooler_State, oldCooler_State);
+  screen.setCoolerState(state);
 }
 
 void switch_CoolerState() {
@@ -31,6 +29,16 @@ void requestInfo(byte option){
   Wire.endTransmission();
 }
 
+void setSensorsData(uint16_t d1, uint16_t d2, uint16_t d3, uint16_t d4, float temperature, float humidity, bool cooler_state){
+  screen.setCoolerState(cooler_state);
+  screen.setHum_DHT(humidity);
+  screen.setTempC_DHT(temperature);
+  screen.setMeasure_Cam_now(d1);
+  screen.setMeasure_LCi_now(d2);
+  screen.setMeasure_LCo_now(d3);
+  screen.setMeasure_Pri_now(d4);
+}
+
 void handleResponseWire(int howMany){
   int i = 0;
   while (1 < Wire.available() && i<200) { // loop through all but the last
@@ -40,7 +48,7 @@ void handleResponseWire(int howMany){
   }
   buffer[i] = Wire.read();    // receive byte as an integer
   Serial.println(buffer[i]);         // print the integer
-  messenger.deserializeData(buffer);
+  messenger.deserializeData(buffer, setSensorsData);
 }
 
 void setup() {

@@ -7,15 +7,15 @@ Screen::Screen(bool Cooler_State)
   this->state_TFT = INIT_STATE;
 
   this->ts = new TouchScreen(XP, YP, XM, YM, 300);
-  this->tft = new MCUFRIEND_kbv(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RST);
+  this->tft = new MCUFRIEND_kbv(LCD_CS, LCD_RS, LCD_WR, LCD_RD, LCD_RST);
 
   this->Cooler_State = Cooler_State;
   this->oldCooler_State = Cooler_State;
 }
 
-void Screen::setCoolerState(bool state, bool old_state){
+void Screen::setCoolerState(bool state){
+  this->oldCooler_State = this->Cooler_State;
   this->Cooler_State = state;
-  this->oldCooler_State = old_state;
 }
 
 void Screen::readResistiveTouch()

@@ -230,7 +230,7 @@ void loop() {
     {
     case 1:
       Wire.beginTransmission(4);
-      message = messenger.serializeData(0.1, 0.2, 0.3, 0.4, 26, 5, true);
+      message = messenger.serializeData(11, 12, 13, 14, 26, 5, true);
       Wire.print(message);
       Wire.endTransmission();
       messageSent = true;
@@ -239,7 +239,7 @@ void loop() {
       break;
     case 2:
       Wire.beginTransmission(4);
-      message = messenger.serializeData(1.1, 1.2, 1.3, 1.4, 26, 5, true);
+      message = messenger.serializeData(21, 22, 23, 24, 27, 5, true);
       Wire.print(message);
       Wire.endTransmission();
       messageSent = true;
@@ -248,7 +248,7 @@ void loop() {
       break;
     case 3:
       Wire.beginTransmission(4);
-      message = messenger.serializeData(2.1, 2.2, 2.3, 2.4, 26, 5, true);
+      message = messenger.serializeData(31, 32, 33, 34, 28, 5, true);
       Serial.println(message);
       Wire.print(message);
       Wire.endTransmission();

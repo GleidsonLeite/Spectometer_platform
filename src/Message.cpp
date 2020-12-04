@@ -5,11 +5,12 @@ Message::Message(){
 
 }
 
+
+
 String Message::serializeData(
-  int distance1, int distance2, int distance3, int distance4,
-  int temperature, int humidity, bool coolerState)
+  uint16_t distance1, uint16_t distance2, uint16_t distance3, uint16_t distance4,
+  float temperature, float humidity, bool coolerState)
 {
-  const int capacity = JSON_ARRAY_SIZE(6) + 5*JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(1);
   JsonObject distanceSensor_1 = this->doc.createNestedObject();
   distanceSensor_1["id"] = "d1";
   distanceSensor_1["v"] = distance1;
@@ -35,7 +36,26 @@ String Message::serializeData(
   serializeJson(this->doc, output);
   return output;
 }
+void Message::deserializeData(
+  char jsonSerialized[],
+  void (*setValues)(uint16_t d1, uint16_t d2, uint16_t d3, uint16_t d4, float temperature, float humidity, bool cooler_state)
+){
+  DeserializationError err = deserializeJson(this->doc, jsonSerialized);
+  if(err){
+    Serial.print(F("deserializeJson() failed with code "));
+    Serial.println(err.c_str());
+  }else{
+    Serial.println("conversion success");
+  }
+  JsonArray array = this->doc.as<JsonArray>();
+  float distance_1 = array[0]["v"].as<uint16_t>();
+  float distance_2 = array[1]["v"].as<uint16_t>();
+  float distance_3 = array[2]["v"].as<uint16_t>();
+  float distance_4 = array[3]["v"].as<uint16_t>();
 
-void Message::deserializeData(char jsonSerialized[]){
-  deserializeJson(this->doc, jsonSerialized);
+  float temperature = array[4]["t"].as<float>();
+  float humidity = array[4]["h"].as<float>();
+  bool cooler_state = array[5]["cs"].as<bool>();
+
+  setValues(distance_1, distance_2, distance_3, distance_4, temperature, humidity, cooler_state);
 }
