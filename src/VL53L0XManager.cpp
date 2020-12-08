@@ -48,6 +48,13 @@ void VL53L0XManager::setAddresses()
         }
         delay(10);
     }
+
+    for (int i = 0; i < this->numberSensors; i++)
+    {
+      this->distanceSensors[i].sensor.startRangeContinuous();
+      this->distanceSensors[i].sensor.setMeasurementTimingBudgetMicroSeconds(1000);
+    }
+
     Serial.println("Tudo certo!");
 }
 

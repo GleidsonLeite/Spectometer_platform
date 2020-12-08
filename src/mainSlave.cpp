@@ -262,14 +262,17 @@ void loop() {
         cooler.getCurrentHumidity(),
         cooler.getStatus()
       );
+
       Wire.beginTransmission(4);
-      Wire.write(message.c_str());
+      Wire.print(message);
       Wire.endTransmission();
+
       messageSent = true;
       Serial.println(responseOption);
       responseOption = 0;
       break;
     case 3:
+      cooler.switchStatus();
       message = messenger.serializeData(
         distanceSensorsManager.getSensorDistance(0),
         distanceSensorsManager.getSensorDistance(1),
@@ -280,11 +283,8 @@ void loop() {
         cooler.getStatus()
       );
       Wire.beginTransmission(4);
-      Wire.write(message.c_str());
+      Wire.print(message);
       Wire.endTransmission();
-
-      Serial.println(message);
-
       messageSent = true;
       Serial.println(responseOption);
       responseOption = 0;
