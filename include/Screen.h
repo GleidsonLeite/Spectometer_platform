@@ -207,8 +207,8 @@ public:
   void setMeasure_Cam_now(uint16_t Measure_Cam_now);
   void setMeasure_LCi_now(uint16_t Measure_LCi_now);
   void setMeasure_LCo_now(uint16_t Measure_LCo_now);
-  void setTempC_DHT(uint16_t TempC_DHT);
-  void setHum_DHT(uint16_t Measure_Pri_now);
+  void setTempC_DHT(float TempC_DHT);
+  void setHum_DHT(float Measure_Pri_now);
 
 };
 

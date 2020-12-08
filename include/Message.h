@@ -11,7 +11,6 @@ const int capacity = JSON_ARRAY_SIZE(6) + 5*JSON_OBJECT_SIZE(2) + JSON_OBJECT_SI
 class Message
 {
 private:
-  StaticJsonDocument<capacity> doc;
 public:
   Message();
   String serializeData(uint16_t distance1, uint16_t distance2, uint16_t distance3, uint16_t distance4, float temperature, float humidity, bool coolerState);

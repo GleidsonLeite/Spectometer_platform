@@ -18,16 +18,17 @@ void Fan::switchStatus(){
 }
 
 void Fan::switchStatusByTemperature(){
-  float currentTemperature = this->temperatureSensor->readTemperature();
-  if(isnan(currentTemperature)){
+  this->currentTemperature = this->temperatureSensor->readTemperature();
+  this->currentHumidity = this->temperatureSensor->readHumidity();
+  if(isnan(this->currentTemperature)){
     Serial.println(F("Failed to read temperature from DHT sensor"));
     return;
   }
-  Serial.println(currentTemperature);
-  if (currentTemperature>=this->biasTemperature && !this->status){
+  // Serial.println(this->currentTemperature);
+  if (this->currentTemperature>=this->biasTemperature && !this->status){
     digitalWrite(this->relayPin, LOW);
     this->status = true;
-  } else if(currentTemperature<this->biasTemperature && this->status){
+  } else if(this->currentTemperature<this->biasTemperature && this->status){
     digitalWrite(this->relayPin, HIGH);
     this->status = false;
   }
@@ -62,3 +63,6 @@ void Fan::configureTimerInterruption(){
 }
 
 
+float Fan::getCurrentTemperature() {return this->currentTemperature;}
+float Fan::getCurrentHumidity() {return this->currentHumidity;}
+bool Fan::getStatus() {return this->status;}

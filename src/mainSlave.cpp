@@ -199,17 +199,20 @@ void setup() {
   message = "";
   messageSent = true;
   responseOption = 0;
-  Wire.begin(9);
-  Wire.onReceive(responseSlave);
   Serial.begin(9600);
-  Serial.println("Iniciando aplicacao");
-  // cooler.configure();
+  cooler.configure();
   attachInterrupt(
     digitalPinToInterrupt(switchFanButtonPin),
     switchFanStatus,
     FALLING
   );
-  // distanceSensorsManager.setAddresses();
+  distanceSensorsManager.setAddresses();
+
+  Wire.begin(12);
+  Wire.onReceive(responseSlave);
+
+  Serial.println("Iniciando aplicacao");
+
 
 }
 
@@ -219,39 +222,69 @@ unsigned long time;
 
 void loop() {
   // time = millis();
-  // colimadora_motor.listenButtons();
-  // prisma_motor.listenButtons();
-  // cilindrica_motor.listenButtons();
-  // camera_motor.listenButtons();
+  // uint16_t teste = distanceSensorsManager.getSensorDistance(3);
+  colimadora_motor.listenButtons();
+  prisma_motor.listenButtons();
+  cilindrica_motor.listenButtons();
+  camera_motor.listenButtons();
   if (responseOption!=0 && !messageSent)
   {
     // Serial.println("ola");
     switch (responseOption)
     {
     case 1:
+      message = messenger.serializeData(
+        distanceSensorsManager.getSensorDistance(0),
+        distanceSensorsManager.getSensorDistance(1),
+        distanceSensorsManager.getSensorDistance(2),
+        distanceSensorsManager.getSensorDistance(3),
+        cooler.getCurrentTemperature(),
+        cooler.getCurrentHumidity(),
+        cooler.getStatus()
+      );
       Wire.beginTransmission(4);
-      message = messenger.serializeData(11, 12, 13, 14, 26, 5, true);
-      Wire.print(message);
+      Wire.write(message.c_str());
       Wire.endTransmission();
+
+      Serial.println(message);
+
       messageSent = true;
       Serial.println(responseOption);
       responseOption = 0;
       break;
     case 2:
+      message = messenger.serializeData(
+        distanceSensorsManager.getSensorDistance(0),
+        distanceSensorsManager.getSensorDistance(1),
+        distanceSensorsManager.getSensorDistance(2),
+        distanceSensorsManager.getSensorDistance(3),
+        cooler.getCurrentTemperature(),
+        cooler.getCurrentHumidity(),
+        cooler.getStatus()
+      );
       Wire.beginTransmission(4);
-      message = messenger.serializeData(21, 22, 23, 24, 27, 5, true);
-      Wire.print(message);
+      Wire.write(message.c_str());
       Wire.endTransmission();
       messageSent = true;
       Serial.println(responseOption);
       responseOption = 0;
       break;
     case 3:
+      message = messenger.serializeData(
+        distanceSensorsManager.getSensorDistance(0),
+        distanceSensorsManager.getSensorDistance(1),
+        distanceSensorsManager.getSensorDistance(2),
+        distanceSensorsManager.getSensorDistance(3),
+        cooler.getCurrentTemperature(),
+        cooler.getCurrentHumidity(),
+        cooler.getStatus()
+      );
       Wire.beginTransmission(4);
-      message = messenger.serializeData(31, 32, 33, 34, 28, 5, true);
-      Serial.println(message);
-      Wire.print(message);
+      Wire.write(message.c_str());
       Wire.endTransmission();
+
+      Serial.println(message);
+
       messageSent = true;
       Serial.println(responseOption);
       responseOption = 0;
@@ -290,15 +323,12 @@ void loop() {
 
   // Serial.print("Distancia colimadora: ");
   // Serial.println(distanceSensorsManager.getSensorDistance(0));
-  // // delay(1000);
+  // delay(1000);
   // Serial.print("Distancia Cilindrica: ");
   // Serial.println(distanceSensorsManager.getSensorDistance(1));
   // // delay(1000);
   // Serial.print("Distancia Camera: ");
   // Serial.println(distanceSensorsManager.getSensorDistance(2));
-  // // delay(1000);
-  // Serial.print("Distancia Prisma: ");
-  // Serial.println(distanceSensorsManager.getSensorDistance(3));
   // // delay(1000);
 
 

@@ -14,12 +14,17 @@ private:
 
     DHT *temperatureSensor;
     float biasTemperature;
+    float currentTemperature;
+    float currentHumidity;
 public:
     Fan(int relayPin, int switchButtonPin, int DHTPin, float biasTemperature);
     void configure();
     void switchStatus();
     void switchStatusByTemperature();
     void configureTimerInterruption();
+    float getCurrentTemperature();
+    float getCurrentHumidity();
+    bool getStatus();
 };
 
 #endif

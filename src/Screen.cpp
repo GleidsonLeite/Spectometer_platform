@@ -207,19 +207,19 @@ void Screen::LOXprintValues(uint16_t Measure_Pri_now, uint16_t Measure_Cam_now, 
   int disp = dispx / 2;
 
   String value = "";
-  value = value + Measure_Pri_now + "mm";
+  value = value + this->Measure_Pri_now + "mm";
   centerprint(value.c_str(), LOX_Y1, LOX_SIZE, TEXT_COLOR, disp);
 
   value = "";
-  value = value + Measure_Cam_now + "mm";
+  value = value + this->Measure_Cam_now + "mm";
   centerprint(value.c_str(), LOX_Y1, LOX_SIZE, TEXT_COLOR, disp, dispx);
 
   value = "";
-  value = value + Measure_LCi_now + "mm";
+  value = value + this->Measure_LCi_now + "mm";
   centerprint(value.c_str(), LOX_Y2, LOX_SIZE, TEXT_COLOR, disp);
 
   value = "";
-  value = value + Measure_LCo_now + "mm";
+  value = value + this->Measure_LCo_now + "mm";
   centerprint(value.c_str(), LOX_Y2, LOX_SIZE, TEXT_COLOR, disp, dispx);
 }
 
@@ -363,5 +363,5 @@ void Screen::setMeasure_Pri_now(uint16_t Measure_Pri_now){this->Measure_Pri_now 
 void Screen::setMeasure_Cam_now(uint16_t Measure_Cam_now){this->Measure_Cam_now = Measure_Cam_now;}
 void Screen::setMeasure_LCi_now(uint16_t Measure_LCi_now){this->Measure_LCi_now = Measure_LCi_now;}
 void Screen::setMeasure_LCo_now(uint16_t Measure_LCo_now){this->Measure_LCo_now = Measure_LCo_now;}
-void Screen::setTempC_DHT(uint16_t TempC_DHT){this->TempC_DHT = TempC_DHT;}
-void Screen::setHum_DHT(uint16_t Measure_Pri_now){this->Measure_Pri_now = Measure_Pri_now;}
+void Screen::setTempC_DHT(float TempC_DHT){this->TempC_DHT = TempC_DHT;}
+void Screen::setHum_DHT(float Hum_DHT){this->Hum_DHT = Hum_DHT;}

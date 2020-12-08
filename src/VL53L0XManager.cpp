@@ -37,7 +37,8 @@ void VL53L0XManager::setAddresses()
             Serial.println(j);
             digitalWrite(this->distanceSensors[j].shutdownPin, LOW);
         }
-        Serial.println(this->distanceSensors[i].address);
+        // Serial.println(this->distanceSensors[i].address);
+        // this->distanceSensors[i].sensor.startRangeContinuous();
         while (!this->distanceSensors[i].sensor.begin(this->distanceSensors[i].address))
         {
             Serial.print("Failed to boot ");
@@ -56,7 +57,7 @@ uint16_t VL53L0XManager::getSensorDistance(int sensorNumber){
     );
     if (this->distanceSensors[sensorNumber].measure.RangeStatus!=4)
     {
-        return this->distanceSensors[sensorNumber].measure.RangeMilliMeter;
+      return this->distanceSensors[sensorNumber].measure.RangeMilliMeter;
     }
     return 0;
 }

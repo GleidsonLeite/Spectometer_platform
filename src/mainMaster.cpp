@@ -24,7 +24,7 @@ void switch_CoolerState() {
 }
 
 void requestInfo(byte option){
-  Wire.beginTransmission(9);
+  Wire.beginTransmission(12);
   Wire.write(option);
   Wire.endTransmission();
 }
@@ -33,10 +33,10 @@ void setSensorsData(uint16_t d1, uint16_t d2, uint16_t d3, uint16_t d4, float te
   screen.setCoolerState(cooler_state);
   screen.setHum_DHT(humidity);
   screen.setTempC_DHT(temperature);
-  screen.setMeasure_Cam_now(d1);
+  screen.setMeasure_Cam_now(d4);
   screen.setMeasure_LCi_now(d2);
-  screen.setMeasure_LCo_now(d3);
-  screen.setMeasure_Pri_now(d4);
+  screen.setMeasure_LCo_now(d1);
+  screen.setMeasure_Pri_now(d3);
 }
 
 void handleResponseWire(int howMany){
@@ -54,14 +54,14 @@ void handleResponseWire(int howMany){
 void setup() {
   Serial.begin(9600);
 
-  Wire.begin(4);
-  Wire.onReceive(handleResponseWire);
-
   Cooler_State = false;
   oldCooler_State = false;
   btn_cooler = false;
-
+  Serial.println("Configurando tela");
   screen.setup();
+
+  Wire.begin(4);
+  Wire.onReceive(handleResponseWire);
 
 }
 
