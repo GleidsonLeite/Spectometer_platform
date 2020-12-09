@@ -4,24 +4,16 @@
 #ifndef ARDUINO_h
 #define ARDUINO_H
 
-#include <AccelStepper.h>
-
 class StepMotorA4988
 {
 private:
-    
+
     // Pinout
     int dirPin;
     int stepPin;
     int enablePin;
 
     int motorInterfaceType;
-
-    AccelStepper *motor;
-    
-    int stepSize;
-    int maxSpeed;
-    int speed;
 
     //Controller
     int CLOCKWISE_BUTTON_PIN;
@@ -44,14 +36,7 @@ public:
         int enablePin
     );
 
-    void defaultConfig();
-
-    void setMaxSpeed(int speed);
-    void setSpeed(int speed);
-    void setStepSize(int step);
-
-    void rotateClockWise();
-    void rotateAntiClockWise();
+    void step(boolean dir, int steps);
 
     void putToSleep();
     void wakeUp();

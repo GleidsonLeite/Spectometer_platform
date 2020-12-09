@@ -10,7 +10,6 @@ StepMotorA4988::StepMotorA4988(
 )
 {
     setMotorPins(dirPin, stepPin, enablePin);
-    defaultConfig();
     setButtonControl(CLOCKWISE_BUTTON_PIN, ANTICLOCKWISE_BUTTON_PIN);
 }
 
@@ -28,52 +27,22 @@ void StepMotorA4988::setMotorPins(
     pinMode(stepPin, OUTPUT);
     pinMode(enablePin, OUTPUT);
 
+    digitalWrite(this->enablePin, LOW);
+
 }
 
-void StepMotorA4988::defaultConfig()
-{
-    this->motorInterfaceType = 1;
-    this->motor = new AccelStepper(
-        this->motorInterfaceType,
-        this->stepPin,
-        this->dirPin
-    );
-    setMaxSpeed(1000);
-    setSpeed(500);
-    setStepSize(200);
-}
 
-void StepMotorA4988::setMaxSpeed(int maxSpeed)
-{
-    this->maxSpeed = maxSpeed;
-    this->motor->setMaxSpeed(maxSpeed);
-}
-void StepMotorA4988::setSpeed(int speed)
-{
-    this->speed = speed;
-    this->motor->setSpeed(speed);
-}
-void StepMotorA4988::setStepSize(int stepSize)
-{
-    this->stepSize = stepSize;
-}
+void StepMotorA4988::step(boolean dir, int steps){
+  digitalWrite(this->dirPin, dir);
+  delay(50);
+  for (int i = 0; i < steps; i++)
+  {
+    digitalWrite(this->stepPin, HIGH);
+    delayMicroseconds(800);
+    digitalWrite(this->stepPin, LOW);
+    delayMicroseconds(800);
+  }
 
-void StepMotorA4988::rotateClockWise()
-{
-    this->motor->setCurrentPosition(0);
-    this->motor->runToNewPosition(this->stepSize);
-}
-
-void StepMotorA4988::rotateAntiClockWise()
-{
-    this->motor->setCurrentPosition(0);
-    this->motor->runToNewPosition(-this->stepSize);
-    // while (this->motor->currentPosition() > -this->stepSize)
-    // {
-    //     this->motor->setSpeed(-this->speed);
-    //     this->motor->runSpeed();
-    //     Serial.println(this->motor->currentPosition());
-    // }
 }
 
 void StepMotorA4988::putToSleep()
@@ -108,12 +77,12 @@ void StepMotorA4988::listenButtons()
     if (!clockwiseButtonState)
     {
         wakeUp();
-        rotateClockWise();
+        this->step(true, 200);
         this->inactive_time = millis();
     }else if (!anticlockwiseButtonState)
     {
         wakeUp();
-        rotateAntiClockWise();
+        this->step(false, 200);
         this->inactive_time = millis();
     }
     if ((millis()-this->inactive_time)>5000) putToSleep() ;
