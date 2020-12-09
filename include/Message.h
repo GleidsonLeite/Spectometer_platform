@@ -6,7 +6,7 @@
 
 #include <ArduinoJson.h>
 
-const int capacity = JSON_ARRAY_SIZE(6) + 5*JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(1);
+const int capacity = JSON_ARRAY_SIZE(6) + 5 * JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(1);
 
 class Message
 {

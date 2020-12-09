@@ -8,23 +8,24 @@
 class Fan
 {
 private:
-    bool status;
-    int relayPin;
-    int switchButtonPin;
+  bool status;
+  int relayPin;
+  int switchButtonPin;
 
-    DHT *temperatureSensor;
-    float biasTemperature;
-    float currentTemperature;
-    float currentHumidity;
+  DHT *temperatureSensor;
+  float biasTemperature;
+  float currentTemperature;
+  float currentHumidity;
+
 public:
-    Fan(int relayPin, int switchButtonPin, int DHTPin, float biasTemperature);
-    void configure();
-    void switchStatus();
-    void switchStatusByTemperature();
-    void configureTimerInterruption();
-    float getCurrentTemperature();
-    float getCurrentHumidity();
-    bool getStatus();
+  Fan(int relayPin, int switchButtonPin, int DHTPin, float biasTemperature);
+  void configure();
+  void switchStatus();
+  void switchStatusByTemperature();
+  void configureTimerInterruption();
+  float getCurrentTemperature();
+  float getCurrentHumidity();
+  bool getStatus();
 };
 
 #endif

@@ -22,38 +22,37 @@
 // };
 
 distanceSensor distanceSensors[] = {
-  {
-    // Colimadora
-    8,
-    0x30,
-    Adafruit_VL53L0X(),
-    VL53L0X_RangingMeasurementData_t(),
-  },
-  {
-    // Cilindrica
-    9,
-    0x31,
-    Adafruit_VL53L0X(),
-    VL53L0X_RangingMeasurementData_t(),
-  },
-  {
-    // Prisma
-    10,
-    0x32,
-    Adafruit_VL53L0X(),
-    VL53L0X_RangingMeasurementData_t(),
-  },
-  {
-    // Camera
-    11,
-    0x33,
-    Adafruit_VL53L0X(),
-    VL53L0X_RangingMeasurementData_t(),
-  },
+    {
+        // Colimadora
+        8,
+        0x30,
+        Adafruit_VL53L0X(),
+        VL53L0X_RangingMeasurementData_t(),
+    },
+    {
+        // Cilindrica
+        9,
+        0x31,
+        Adafruit_VL53L0X(),
+        VL53L0X_RangingMeasurementData_t(),
+    },
+    {
+        // Prisma
+        10,
+        0x32,
+        Adafruit_VL53L0X(),
+        VL53L0X_RangingMeasurementData_t(),
+    },
+    {
+        // Camera
+        11,
+        0x33,
+        Adafruit_VL53L0X(),
+        VL53L0X_RangingMeasurementData_t(),
+    },
 };
 
 VL53L0XManager distanceSensorsManager = VL53L0XManager(4, distanceSensors);
-
 
 // Configurações de todos os motores
 const int STEPS_PER_REVOLUTION = 2048;
@@ -69,9 +68,8 @@ const int STEPS_PER_REVOLUTION = 2048;
 #define DOWN_BUTTON_CILINDRICA 42
 
 StepMotor28BYJ48 cilindrica_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION,
-IN1_CILINDRICA, IN2_CILINDRICA, IN3_CILINDRICA, IN4_CILINDRICA,
-  SPEED, STEP_LENGTH, UP_BUTTON_CILINDRICA, DOWN_BUTTON_CILINDRICA);
-
+                                                     IN1_CILINDRICA, IN2_CILINDRICA, IN3_CILINDRICA, IN4_CILINDRICA,
+                                                     SPEED, STEP_LENGTH, UP_BUTTON_CILINDRICA, DOWN_BUTTON_CILINDRICA);
 
 #define IN1_PRISMA 27
 #define IN2_PRISMA 29
@@ -82,8 +80,8 @@ IN1_CILINDRICA, IN2_CILINDRICA, IN3_CILINDRICA, IN4_CILINDRICA,
 #define DOWN_BUTTON_PRISMA 51
 
 StepMotor28BYJ48 prisma_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION,
-IN1_PRISMA, IN2_PRISMA, IN3_PRISMA, IN4_PRISMA,
-  SPEED, STEP_LENGTH, UP_BUTTON_PRISMA, DOWN_BUTTON_PRISMA);
+                                                 IN1_PRISMA, IN2_PRISMA, IN3_PRISMA, IN4_PRISMA,
+                                                 SPEED, STEP_LENGTH, UP_BUTTON_PRISMA, DOWN_BUTTON_PRISMA);
 
 #define IN1_COLIMADORA 26
 #define IN2_COLIMADORA 28
@@ -94,9 +92,8 @@ IN1_PRISMA, IN2_PRISMA, IN3_PRISMA, IN4_PRISMA,
 #define DOWN_BUTTON_COLIMADORA 48
 
 StepMotor28BYJ48 colimadora_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION,
-IN1_COLIMADORA, IN2_COLIMADORA, IN3_COLIMADORA, IN4_COLIMADORA,
-  SPEED, STEP_LENGTH, UP_BUTTON_COLIMADORA, DOWN_BUTTON_COLIMADORA);
-
+                                                     IN1_COLIMADORA, IN2_COLIMADORA, IN3_COLIMADORA, IN4_COLIMADORA,
+                                                     SPEED, STEP_LENGTH, UP_BUTTON_COLIMADORA, DOWN_BUTTON_COLIMADORA);
 
 #define IN1_CAMERA 35
 #define IN2_CAMERA 37
@@ -107,9 +104,8 @@ IN1_COLIMADORA, IN2_COLIMADORA, IN3_COLIMADORA, IN4_COLIMADORA,
 #define DOWN_BUTTON_CAMERA 43
 
 StepMotor28BYJ48 camera_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION,
-IN1_CAMERA, IN2_CAMERA, IN3_CAMERA, IN4_CAMERA,
-  SPEED, STEP_LENGTH, UP_BUTTON_CAMERA, DOWN_BUTTON_CAMERA);
-
+                                                 IN1_CAMERA, IN2_CAMERA, IN3_CAMERA, IN4_CAMERA,
+                                                 SPEED, STEP_LENGTH, UP_BUTTON_CAMERA, DOWN_BUTTON_CAMERA);
 
 #define MOTOR_STEPS_CAMERA_FEEDFORWARD 200
 #define FORWARD_BUTTON_CAMERA 47
@@ -119,10 +115,8 @@ IN1_CAMERA, IN2_CAMERA, IN3_CAMERA, IN4_CAMERA,
 #define ENB 22
 
 StepMotorA4988 feedfoward_camera_motor = StepMotorA4988(
-  DIR, STEP, ENB,
-  FORWARD_BUTTON_CAMERA, BACKWARD_BUTTON_CAMERA
-);
-
+    DIR, STEP, ENB,
+    FORWARD_BUTTON_CAMERA, BACKWARD_BUTTON_CAMERA);
 
 #define fanRelayPin 4
 #define switchFanButtonPin 2
@@ -130,11 +124,13 @@ StepMotorA4988 feedfoward_camera_motor = StepMotorA4988(
 #define biasTemperature 27
 Fan cooler = Fan(fanRelayPin, switchFanButtonPin, DHTPin, biasTemperature);
 
-void switchFanStatus(){
+void switchFanStatus()
+{
   cooler.switchStatus();
 }
 
-ISR(TIMER1_COMPA_vect){
+ISR(TIMER1_COMPA_vect)
+{
   cooler.switchStatusByTemperature();
 }
 
@@ -143,46 +139,46 @@ String message;
 bool messageSent;
 int responseOption;
 
-void sendMessage(String message, int address){
+void sendMessage(String message, int address)
+{
   Wire.beginTransmission(address);
   Wire.print(message);
   Wire.endTransmission();
 }
 
-void responseSlave(int howMany){
-  while(1<Wire.available()){
+void responseSlave(int howMany)
+{
+  while (1 < Wire.available())
+  {
     char m = Wire.read();
   }
   responseOption = Wire.read();
   messageSent = false;
 }
 
-void setup() {
+void setup()
+{
   message = "";
   messageSent = true;
   responseOption = 0;
   Serial.begin(9600);
   cooler.configure();
   attachInterrupt(
-    digitalPinToInterrupt(switchFanButtonPin),
-    switchFanStatus,
-    FALLING
-  );
+      digitalPinToInterrupt(switchFanButtonPin),
+      switchFanStatus,
+      FALLING);
   distanceSensorsManager.setAddresses();
 
   Wire.begin(12);
   Wire.onReceive(responseSlave);
 
   Serial.println("Iniciando aplicacao");
-
-
 }
 
 unsigned long time;
 
-
-
-void loop() {
+void loop()
+{
   // time = millis();
   // uint16_t teste = distanceSensorsManager.getSensorDistance(3);
   colimadora_motor.listenButtons();
@@ -190,21 +186,20 @@ void loop() {
   cilindrica_motor.listenButtons();
   camera_motor.listenButtons();
   feedfoward_camera_motor.listenButtons();
-  if (responseOption!=0 && !messageSent)
+  if (responseOption != 0 && !messageSent)
   {
     // Serial.println("ola");
     switch (responseOption)
     {
     case 1:
       message = messenger.serializeData(
-        distanceSensorsManager.getSensorDistance(0),
-        distanceSensorsManager.getSensorDistance(1),
-        distanceSensorsManager.getSensorDistance(2),
-        distanceSensorsManager.getSensorDistance(3),
-        cooler.getCurrentTemperature(),
-        cooler.getCurrentHumidity(),
-        cooler.getStatus()
-      );
+          distanceSensorsManager.getSensorDistance(0),
+          distanceSensorsManager.getSensorDistance(1),
+          distanceSensorsManager.getSensorDistance(2),
+          distanceSensorsManager.getSensorDistance(3),
+          cooler.getCurrentTemperature(),
+          cooler.getCurrentHumidity(),
+          cooler.getStatus());
       Wire.beginTransmission(4);
       Wire.write(message.c_str());
       Wire.endTransmission();
@@ -217,14 +212,13 @@ void loop() {
       break;
     case 2:
       message = messenger.serializeData(
-        distanceSensorsManager.getSensorDistance(0),
-        distanceSensorsManager.getSensorDistance(1),
-        distanceSensorsManager.getSensorDistance(2),
-        distanceSensorsManager.getSensorDistance(3),
-        cooler.getCurrentTemperature(),
-        cooler.getCurrentHumidity(),
-        cooler.getStatus()
-      );
+          distanceSensorsManager.getSensorDistance(0),
+          distanceSensorsManager.getSensorDistance(1),
+          distanceSensorsManager.getSensorDistance(2),
+          distanceSensorsManager.getSensorDistance(3),
+          cooler.getCurrentTemperature(),
+          cooler.getCurrentHumidity(),
+          cooler.getStatus());
 
       Wire.beginTransmission(4);
       Wire.print(message);
@@ -237,14 +231,13 @@ void loop() {
     case 3:
       cooler.switchStatus();
       message = messenger.serializeData(
-        distanceSensorsManager.getSensorDistance(0),
-        distanceSensorsManager.getSensorDistance(1),
-        distanceSensorsManager.getSensorDistance(2),
-        distanceSensorsManager.getSensorDistance(3),
-        cooler.getCurrentTemperature(),
-        cooler.getCurrentHumidity(),
-        cooler.getStatus()
-      );
+          distanceSensorsManager.getSensorDistance(0),
+          distanceSensorsManager.getSensorDistance(1),
+          distanceSensorsManager.getSensorDistance(2),
+          distanceSensorsManager.getSensorDistance(3),
+          cooler.getCurrentTemperature(),
+          cooler.getCurrentHumidity(),
+          cooler.getStatus());
       Wire.beginTransmission(4);
       Wire.print(message);
       Wire.endTransmission();
@@ -257,5 +250,4 @@ void loop() {
       break;
     }
   }
-
 }

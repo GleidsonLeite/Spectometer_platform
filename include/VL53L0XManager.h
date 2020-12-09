@@ -3,7 +3,7 @@
 #ifndef ARDUINO_h
 #define ARDUINO_H
 
-#include "Adafruit_VL53L0X.h" 
+#include "Adafruit_VL53L0X.h"
 
 struct distanceSensor
 {
@@ -16,17 +16,17 @@ struct distanceSensor
 class VL53L0XManager
 {
 private:
-    int numberSensors;
-    struct distanceSensor *distanceSensors;
+  int numberSensors;
+  struct distanceSensor *distanceSensors;
+
 public:
-    VL53L0XManager(
-        int numberSensors,
-        struct distanceSensor *distanceSensors
-    );
+  VL53L0XManager(
+      int numberSensors,
+      struct distanceSensor *distanceSensors);
 
-    void setAddresses();
+  void setAddresses();
 
-    uint16_t getSensorDistance(int sensorNumber);
+  uint16_t getSensorDistance(int sensorNumber);
 };
 
 #endif

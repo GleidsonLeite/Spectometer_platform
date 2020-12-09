@@ -13,7 +13,8 @@ Screen::Screen(bool Cooler_State)
   this->oldCooler_State = Cooler_State;
 }
 
-void Screen::setCoolerState(bool state){
+void Screen::setCoolerState(bool state)
+{
   this->oldCooler_State = this->Cooler_State;
   this->Cooler_State = state;
 }
@@ -88,22 +89,26 @@ void Screen::iconbuttonfill_TFT(const char *s, const char *i, int x, int y, int 
   print_TFT(i, size + 1, x - (12 * size), y - (4 * size), colort);
 }
 
-void Screen::centerprint(const char *s, int y, int size, uint16_t color) {
+void Screen::centerprint(const char *s, int y, int size, uint16_t color)
+{
   int len = strlen(s) * 6 * size;
   print_TFT(s, size, (dispx - len) / 2, y, color);
 }
 
-void Screen::centerprint(const char *s, int y, int size, uint16_t color, int disp) {
+void Screen::centerprint(const char *s, int y, int size, uint16_t color, int disp)
+{
   int len = strlen(s) * 6 * size;
   print_TFT(s, size, (disp - len) / 2, y, color);
 }
 
-void Screen::centerprint(const char *s, int y, int size, uint16_t color, int disp, int mapValue) {
+void Screen::centerprint(const char *s, int y, int size, uint16_t color, int disp, int mapValue)
+{
   int len = strlen(s) * 6 * size;
   print_TFT(s, size, map((disp - len) / 2, 0, disp, disp, mapValue), y, color);
 }
 
-void Screen::centerbutton(const char *s, int y, int size, uint16_t color, uint16_t colorBk) {
+void Screen::centerbutton(const char *s, int y, int size, uint16_t color, uint16_t colorBk)
+{
   int len = strlen(s) * 6 * size;
   int x = (dispx - len) / 2;
   int xr = x - 13, yr = y - (7 * size), lenr = len + 26, sizer = 20 * size;
@@ -112,7 +117,8 @@ void Screen::centerbutton(const char *s, int y, int size, uint16_t color, uint16
   print_TFT(s, size, x, y, color);
 }
 
-void Screen::centerbuttonfill(const char *s, int y, int size, uint16_t colorb, uint16_t colort) {
+void Screen::centerbuttonfill(const char *s, int y, int size, uint16_t colorb, uint16_t colort)
+{
   int len = strlen(s) * 6 * size;
   int x = (dispx - len) / 2;
   int xr = x - 13, yr = y - (7 * size), lenr = len + 26, sizer = 20 * size;
@@ -120,48 +126,67 @@ void Screen::centerbuttonfill(const char *s, int y, int size, uint16_t colorb, u
   print_TFT(s, size, x, y, colort);
 }
 
-void Screen::backButton(boolean pushed) {
-  if (pushed) {
-    iconbuttonfill_TFT(BACK_BTN_TEXT, BACK_BTN_ICON, BACK_BTN_X, BACK_BTN_Y,  BACK_BTN_SIZE, BACK_BTN_COLOR, BACK_BTN_COLOR_PUSHED);
-  } else {
+void Screen::backButton(boolean pushed)
+{
+  if (pushed)
+  {
+    iconbuttonfill_TFT(BACK_BTN_TEXT, BACK_BTN_ICON, BACK_BTN_X, BACK_BTN_Y, BACK_BTN_SIZE, BACK_BTN_COLOR, BACK_BTN_COLOR_PUSHED);
+  }
+  else
+  {
     iconbutton_TFT(BACK_BTN_TEXT, BACK_BTN_ICON, BACK_BTN_X, BACK_BTN_Y, BACK_BTN_SIZE, BACK_BTN_COLOR, BACK_BTN_COLOR_PUSHED);
   }
 }
 
-void Screen::DHTbutton(boolean pushed) {
-  if (pushed) {
+void Screen::DHTbutton(boolean pushed)
+{
+  if (pushed)
+  {
     centerbutton(DHT_BTN_TEXT, DHT_BTN_Y, DHT_BTN_SIZE, DHT_BTN_COLOR, DHT_BTN_COLOR_PUSHED);
-  } else {
+  }
+  else
+  {
     centerbuttonfill(DHT_BTN_TEXT, DHT_BTN_Y, DHT_BTN_SIZE, DHT_BTN_COLOR, DHT_BTN_COLOR_PUSHED);
   }
 }
 
-void Screen::LOXbutton(boolean pushed) {
-  if (pushed) {
+void Screen::LOXbutton(boolean pushed)
+{
+  if (pushed)
+  {
     centerbutton(LOX_BTN_TEXT, LOX_BTN_Y, LOX_BTN_SIZE, LOX_BTN_COLOR, LOX_BTN_COLOR_PUSHED);
-  } else {
+  }
+  else
+  {
     centerbuttonfill(LOX_BTN_TEXT, LOX_BTN_Y, LOX_BTN_SIZE, LOX_BTN_COLOR, LOX_BTN_COLOR_PUSHED);
   }
 }
 
-void Screen::coolerButton(boolean pushed) {
-  if (pushed) {
+void Screen::coolerButton(boolean pushed)
+{
+  if (pushed)
+  {
     centerbutton(Cooler_State ? COOLER_BTN_TEXT_ON : COOLER_BTN_TEXT_OFF, COOLER_BTN_Y, COOLER_BTN_SIZE, COOLER_BTN_COLOR, COOLER_BTN_COLOR_PUSHED);
-  } else {
+  }
+  else
+  {
     centerbuttonfill(Cooler_State ? COOLER_BTN_TEXT_ON : COOLER_BTN_TEXT_OFF, COOLER_BTN_Y, COOLER_BTN_SIZE, COOLER_BTN_COLOR, COOLER_BTN_COLOR_PUSHED);
   }
 }
 
-void Screen::printfooter() {
+void Screen::printfooter()
+{
   centerprint("MOSSORO 2020", 232, 1, WHITE);
 }
 
-void Screen::printHeader() {
+void Screen::printHeader()
+{
   this->tft->fillRect(0, 0, dispx, 32, RED);
   centerprint("PLATAFORMA", 6, 3, WHITE);
 }
 
-void Screen::presentationScreen_TFT() {
+void Screen::presentationScreen_TFT()
+{
 
   // IMPRIMI LOGO DA UFERSA
   this->tft->fillRect(0, 0, dispx, 10, GREEN);
@@ -185,12 +210,14 @@ void Screen::presentationScreen_TFT() {
   printfooter();
 }
 
-void Screen::changeState_TFT(int state) {
+void Screen::changeState_TFT(int state)
+{
   state_change_TFT = true;
   state_TFT = state;
 }
 
-void Screen::LOXprintHeaders() {
+void Screen::LOXprintHeaders()
+{
   int disp = dispx / 2;
   // Linhas separadoras
   this->tft->drawFastHLine(LOX_HLINE_X, LOX_HLINE_Y, dispx - (LOX_HLINE_X * 2), LINE_COLOR);
@@ -203,7 +230,8 @@ void Screen::LOXprintHeaders() {
   centerprint("L. Colima", LOX_TEXT_Y2, TEXT_SIZE, TEXT_COLOR, disp, dispx);
 }
 
-void Screen::LOXprintValues(uint16_t Measure_Pri_now, uint16_t Measure_Cam_now, uint16_t Measure_LCi_now, uint16_t Measure_LCo_now) {
+void Screen::LOXprintValues(uint16_t Measure_Pri_now, uint16_t Measure_Cam_now, uint16_t Measure_LCi_now, uint16_t Measure_LCo_now)
+{
   int disp = dispx / 2;
 
   String value = "";
@@ -223,7 +251,8 @@ void Screen::LOXprintValues(uint16_t Measure_Pri_now, uint16_t Measure_Cam_now, 
   centerprint(value.c_str(), LOX_Y2, LOX_SIZE, TEXT_COLOR, disp, dispx);
 }
 
-void Screen::DHTprintHeaders(){
+void Screen::DHTprintHeaders()
+{
   // Linha separadora
   this->tft->drawFastHLine(DHT_LINE_X, DHT_LINE_Y, dispx - (DHT_LINE_X * 2), LINE_COLOR);
 
@@ -232,7 +261,8 @@ void Screen::DHTprintHeaders(){
   centerprint("HUMIDADE", HUM_TEXT_Y, TEXT_SIZE, TEXT_COLOR);
 }
 
-void Screen::DHTprintValues(float TempC_DHT, float Hum_DHT) {
+void Screen::DHTprintValues(float TempC_DHT, float Hum_DHT)
+{
   String value = "";
   value = value + TempC_DHT + " C";
   centerprint(value.c_str(), TEMP_Y, TEMP_SIZE, TEXT_COLOR);
@@ -241,7 +271,8 @@ void Screen::DHTprintValues(float TempC_DHT, float Hum_DHT) {
   centerprint(value.c_str(), HUM_Y, HUM_SIZE, TEXT_COLOR);
 }
 
-void Screen::setup() {
+void Screen::setup()
+{
 
   setMeasure_Pri_now(0);
   setMeasure_Cam_now(0);
@@ -267,17 +298,21 @@ void Screen::setup() {
   delay(3000);
 }
 
-void Screen::touchFlow(void (*switch_CoolerState)(), void (*requestInfo)(byte option)) {
+void Screen::touchFlow(void (*switch_CoolerState)(), void (*requestInfo)(byte option))
+{
   if (ISPRESSED()) // touch confirmado
   {
     // Tratamento do ponto
-    if (TOUCH_ORIENTATION == LANDSCAPE) {
+    if (TOUCH_ORIENTATION == LANDSCAPE)
+    {
       uint16_t tempx = tp.x;
       tp.x = this->tft->width() - (map(tp.y, TS_LEFT_LAND, TS_RIGHT_LAND, this->tft->width(), 0));
-      tp.y = this->tft->height() - (map(tempx, TS_TOP_LAND, TS_BOT_LAND, this->tft->height(),0));
-    } else {
+      tp.y = this->tft->height() - (map(tempx, TS_TOP_LAND, TS_BOT_LAND, this->tft->height(), 0));
+    }
+    else
+    {
       tp.x = this->tft->width() - (map(tp.x, TS_LEFT_PORT, TS_RIGHT_PORT, this->tft->width(), 0));
-      tp.y = this->tft->height() - (map(tp.y, TS_TOP_PORT, TS_BOT_PORT, this->tft->height(),0));
+      tp.y = this->tft->height() - (map(tp.y, TS_TOP_PORT, TS_BOT_PORT, this->tft->height(), 0));
     }
 
     // for debug
@@ -286,31 +321,42 @@ void Screen::touchFlow(void (*switch_CoolerState)(), void (*requestInfo)(byte op
     // Serial.print("  py: ");
     // Serial.println(tp.y);
 
-    if (state_TFT != MAIN_STATE_TFT) {
-      if ((tp.y >= BACK_BTN_Y1 && tp.y <= BACK_BTN_Y2) && (tp.x >= BACK_BTN_X1 && tp.x <= BACK_BTN_X2)) {
+    if (state_TFT != MAIN_STATE_TFT)
+    {
+      if ((tp.y >= BACK_BTN_Y1 && tp.y <= BACK_BTN_Y2) && (tp.x >= BACK_BTN_X1 && tp.x <= BACK_BTN_X2))
+      {
         // back button foi pressionado
         changeState_TFT(MAIN_STATE_TFT);
         backButton(true);
         delay(BTN_DELAY);
       }
-    } else {
-      if ((tp.y >= DHT_BTN_Y1 && tp.y <= DHT_BTN_Y2) && (tp.x >= DHT_BTN_X1 && tp.x <= DHT_BTN_X2)) {
+    }
+    else
+    {
+      if ((tp.y >= DHT_BTN_Y1 && tp.y <= DHT_BTN_Y2) && (tp.x >= DHT_BTN_X1 && tp.x <= DHT_BTN_X2))
+      {
         // dht button foi pressionado
         changeState_TFT(DHT_STATE_TFT);
         DHTbutton(true);
         delay(BTN_DELAY);
         (*requestInfo)(2);
-      } else if ((tp.y >= LOX_BTN_Y1 && tp.y <= LOX_BTN_Y2) && (tp.x >= LOX_BTN_X1 && tp.x <= LOX_BTN_X2)) {
+      }
+      else if ((tp.y >= LOX_BTN_Y1 && tp.y <= LOX_BTN_Y2) && (tp.x >= LOX_BTN_X1 && tp.x <= LOX_BTN_X2))
+      {
         // lox button foi pressionado
         changeState_TFT(LOX_STATE_TFT);
         LOXbutton(true);
         delay(BTN_DELAY);
         (*requestInfo)(1);
-      } else if ((tp.y >= COOLER_BTN_Y1 && tp.y <= COOLER_BTN_Y2) && (tp.x >= COOLER_BTN_X1 && tp.x <= COOLER_BTN_X2)) {
+      }
+      else if ((tp.y >= COOLER_BTN_Y1 && tp.y <= COOLER_BTN_Y2) && (tp.x >= COOLER_BTN_X1 && tp.x <= COOLER_BTN_X2))
+      {
         // COOLER button foi pressionado
         coolerButton(true);
         delay(BTN_DELAY);
-        while(ISPRESSED()) {} // esperar soltar
+        while (ISPRESSED())
+        {
+        } // esperar soltar
         (*switch_CoolerState)();
         (*requestInfo)(3);
       }
@@ -318,50 +364,56 @@ void Screen::touchFlow(void (*switch_CoolerState)(), void (*requestInfo)(byte op
   }
 }
 
-void Screen::drawFlow() {
-  if (state_change_TFT) {
+void Screen::drawFlow()
+{
+  if (state_change_TFT)
+  {
     state_change_TFT = false;
     this->tft->fillScreen(BLACK);
     printHeader();
     printfooter();
-    if (state_TFT != MAIN_STATE_TFT) {
+    if (state_TFT != MAIN_STATE_TFT)
+    {
       backButton(false);
       switch (state_TFT)
       {
-        case LOX_STATE_TFT:
-          LOXprintHeaders();
-          break;
-        case DHT_STATE_TFT:
-          DHTprintHeaders();
-          break;
+      case LOX_STATE_TFT:
+        LOXprintHeaders();
+        break;
+      case DHT_STATE_TFT:
+        DHTprintHeaders();
+        break;
       }
-
-    } else {
+    }
+    else
+    {
       LOXbutton(false);
       DHTbutton(false);
-      if ((oldCooler_State != Cooler_State)) oldCooler_State = Cooler_State;
+      if ((oldCooler_State != Cooler_State))
+        oldCooler_State = Cooler_State;
       coolerButton(false);
     }
   }
-  if ((state_TFT == MAIN_STATE_TFT && (oldCooler_State != Cooler_State))) {
+  if ((state_TFT == MAIN_STATE_TFT && (oldCooler_State != Cooler_State)))
+  {
     oldCooler_State = Cooler_State;
     coolerButton(false);
   }
 
   switch (state_TFT)
   {
-    case LOX_STATE_TFT:
-      LOXprintValues(this->Measure_Pri_now, this->Measure_Cam_now, this->Measure_LCi_now, this->Measure_LCo_now);
-      break;
-    case DHT_STATE_TFT:
-      DHTprintValues(this->TempC_DHT, this->Hum_DHT);
-      break;
+  case LOX_STATE_TFT:
+    LOXprintValues(this->Measure_Pri_now, this->Measure_Cam_now, this->Measure_LCi_now, this->Measure_LCo_now);
+    break;
+  case DHT_STATE_TFT:
+    DHTprintValues(this->TempC_DHT, this->Hum_DHT);
+    break;
   }
 }
 
-void Screen::setMeasure_Pri_now(uint16_t Measure_Pri_now){this->Measure_Pri_now = Measure_Pri_now;}
-void Screen::setMeasure_Cam_now(uint16_t Measure_Cam_now){this->Measure_Cam_now = Measure_Cam_now;}
-void Screen::setMeasure_LCi_now(uint16_t Measure_LCi_now){this->Measure_LCi_now = Measure_LCi_now;}
-void Screen::setMeasure_LCo_now(uint16_t Measure_LCo_now){this->Measure_LCo_now = Measure_LCo_now;}
-void Screen::setTempC_DHT(float TempC_DHT){this->TempC_DHT = TempC_DHT;}
-void Screen::setHum_DHT(float Hum_DHT){this->Hum_DHT = Hum_DHT;}
+void Screen::setMeasure_Pri_now(uint16_t Measure_Pri_now) { this->Measure_Pri_now = Measure_Pri_now; }
+void Screen::setMeasure_Cam_now(uint16_t Measure_Cam_now) { this->Measure_Cam_now = Measure_Cam_now; }
+void Screen::setMeasure_LCi_now(uint16_t Measure_LCi_now) { this->Measure_LCi_now = Measure_LCi_now; }
+void Screen::setMeasure_LCo_now(uint16_t Measure_LCo_now) { this->Measure_LCo_now = Measure_LCo_now; }
+void Screen::setTempC_DHT(float TempC_DHT) { this->TempC_DHT = TempC_DHT; }
+void Screen::setHum_DHT(float Hum_DHT) { this->Hum_DHT = Hum_DHT; }

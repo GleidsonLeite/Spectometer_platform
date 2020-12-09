@@ -7,43 +7,39 @@
 class StepMotorA4988
 {
 private:
+  // Pinout
+  int dirPin;
+  int stepPin;
+  int enablePin;
 
-    // Pinout
-    int dirPin;
-    int stepPin;
-    int enablePin;
+  int motorInterfaceType;
 
-    int motorInterfaceType;
+  //Controller
+  int CLOCKWISE_BUTTON_PIN;
+  int ANTICLOCKWISE_BUTTON_PIN;
 
-    //Controller
-    int CLOCKWISE_BUTTON_PIN;
-    int ANTICLOCKWISE_BUTTON_PIN;
-
-    unsigned long inactive_time;
+  unsigned long inactive_time;
 
 public:
-    StepMotorA4988(
-        int DIRPin,
-        int STPPin,
-        int ENBPin,
-        int CLOCKWISE_BUTTON_PIN,
-        int ANTICLOCKWISE_BUTTON_PIN
-    );
+  StepMotorA4988(
+      int DIRPin,
+      int STPPin,
+      int ENBPin,
+      int CLOCKWISE_BUTTON_PIN,
+      int ANTICLOCKWISE_BUTTON_PIN);
 
-    void setMotorPins(
-        int dirPin,
-        int stepPin,
-        int enablePin
-    );
+  void setMotorPins(
+      int dirPin,
+      int stepPin,
+      int enablePin);
 
-    void step(boolean dir, int steps);
+  void step(boolean dir, int steps);
 
-    void putToSleep();
-    void wakeUp();
+  void putToSleep();
+  void wakeUp();
 
-    void setButtonControl(int CLOCKWISE_BUTTON_PIN, int ANTICLOCKWISE_BUTTON_PIN);
-    void listenButtons();
-
+  void setButtonControl(int CLOCKWISE_BUTTON_PIN, int ANTICLOCKWISE_BUTTON_PIN);
+  void listenButtons();
 };
 
 #endif

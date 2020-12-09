@@ -1,15 +1,13 @@
 #include <Arduino.h>
 #include "Message.h"
 
-Message::Message(){
-
+Message::Message()
+{
 }
 
-
-
 String Message::serializeData(
-  uint16_t distance1, uint16_t distance2, uint16_t distance3, uint16_t distance4,
-  float temperature, float humidity, bool coolerState)
+    uint16_t distance1, uint16_t distance2, uint16_t distance3, uint16_t distance4,
+    float temperature, float humidity, bool coolerState)
 {
   StaticJsonDocument<capacity> doc;
 
@@ -33,22 +31,24 @@ String Message::serializeData(
   JsonObject coolerState_ = doc.createNestedObject();
   coolerState_["cs"] = coolerState;
 
-
   char output[200] = "";
   serializeJson(doc, output);
   return output;
 }
 void Message::deserializeData(
-  char jsonSerialized[],
-  void (*setValues)(uint16_t d1, uint16_t d2, uint16_t d3, uint16_t d4, float temperature, float humidity, bool cooler_state)
-){
+    char jsonSerialized[],
+    void (*setValues)(uint16_t d1, uint16_t d2, uint16_t d3, uint16_t d4, float temperature, float humidity, bool cooler_state))
+{
   StaticJsonDocument<capacity> doc;
   Serial.println(jsonSerialized);
   DeserializationError err = deserializeJson(doc, jsonSerialized);
-  if(err){
+  if (err)
+  {
     Serial.print(F("deserializeJson() failed with code "));
     Serial.println(err.c_str());
-  }else{
+  }
+  else
+  {
     Serial.println("conversion success");
   }
   JsonArray array = doc.as<JsonArray>();

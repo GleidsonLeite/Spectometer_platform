@@ -20,19 +20,18 @@
 #define LCD_RD A0
 #define LCD_RST A4
 
-
 // CONFIGURAÇÃO TFT
 #define TS_LEFT_PORT 917
 #define TS_RIGHT_PORT 171
 #define TS_TOP_PORT 154
 #define TS_BOT_PORT 906
 
-#define TS_LEFT_LAND 168 // NÃO MEXA
+#define TS_LEFT_LAND 168  // NÃO MEXA
 #define TS_RIGHT_LAND 916 // NÃO MEXA
 #define TS_TOP_LAND 171
 #define TS_BOT_LAND 917
 
-#define PORTRAIT  0
+#define PORTRAIT 0
 #define LANDSCAPE 1
 #define TOUCH_ORIENTATION LANDSCAPE
 
@@ -108,7 +107,7 @@
 #define COOLER_BTN_Y 170
 #define COOLER_BTN_COLOR WHITE
 #define COOLER_BTN_COLOR_PUSHED BLACK
-#define COOLER_BTN_TEXT_ON  "DESLIGAR COOLER"
+#define COOLER_BTN_TEXT_ON "DESLIGAR COOLER"
 #define COOLER_BTN_TEXT_OFF " LIGAR  COOLER "
 #define COOLER_BTN_X1 52
 #define COOLER_BTN_X2 260
@@ -145,7 +144,6 @@
 #define LOX_HLINE_Y 130
 #define LOX_VLINE_YS 35 // start
 #define LOX_VLINE_YF 11 // finish
-
 
 class Screen
 {
@@ -209,9 +207,7 @@ public:
   void setMeasure_LCo_now(uint16_t Measure_LCo_now);
   void setTempC_DHT(float TempC_DHT);
   void setHum_DHT(float Measure_Pri_now);
-
 };
-
 
 #endif
 #endif
