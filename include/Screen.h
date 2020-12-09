@@ -11,14 +11,14 @@
 #define YP A1 // Y+ is on Analog1 (use A3 para o 9341)
 #define XM A2 // X- is on Analog2 (use A2 para o 9341)
 // A3, A2, A1, A0, A4
-#define XP 6 // X+ is on Digital2 (use 8 para o 9341)
-#define YM 7 // Y- is on Digital3 (use 9 para o 9341)
+#define XP 6 // LCD D6
+#define YM 7 // LCD D7
 
 #define LCD_CS A3
 #define LCD_RS A2
 #define LCD_WR A1
 #define LCD_RD A0
-#define LCD_RST 1
+#define LCD_RST A4
 
 
 // CONFIGURAÇÃO TFT

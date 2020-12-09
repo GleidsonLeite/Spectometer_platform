@@ -38,14 +38,14 @@ distanceSensor distanceSensors[] = {
   },
   {
     // Prisma
-    11,
+    10,
     0x32,
     Adafruit_VL53L0X(),
     VL53L0X_RangingMeasurementData_t(),
   },
   {
     // Camera
-    10,
+    11,
     0x33,
     Adafruit_VL53L0X(),
     VL53L0X_RangingMeasurementData_t(),
@@ -65,8 +65,8 @@ const int STEPS_PER_REVOLUTION = 2048;
 #define IN3_CILINDRICA 38
 #define IN4_CILINDRICA 40
 
-#define UP_BUTTON_CILINDRICA 42
-#define DOWN_BUTTON_CILINDRICA 44
+#define UP_BUTTON_CILINDRICA 44
+#define DOWN_BUTTON_CILINDRICA 42
 
 StepMotor28BYJ48 cilindrica_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION,
 IN1_CILINDRICA, IN2_CILINDRICA, IN3_CILINDRICA, IN4_CILINDRICA,
@@ -90,8 +90,8 @@ IN1_PRISMA, IN2_PRISMA, IN3_PRISMA, IN4_PRISMA,
 #define IN3_COLIMADORA 30
 #define IN4_COLIMADORA 32
 
-#define UP_BUTTON_COLIMADORA 48
-#define DOWN_BUTTON_COLIMADORA 50
+#define UP_BUTTON_COLIMADORA 50
+#define DOWN_BUTTON_COLIMADORA 48
 
 StepMotor28BYJ48 colimadora_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION,
 IN1_COLIMADORA, IN2_COLIMADORA, IN3_COLIMADORA, IN4_COLIMADORA,
@@ -103,8 +103,8 @@ IN1_COLIMADORA, IN2_COLIMADORA, IN3_COLIMADORA, IN4_COLIMADORA,
 #define IN3_CAMERA 39
 #define IN4_CAMERA 41
 
-#define UP_BUTTON_CAMERA 43
-#define DOWN_BUTTON_CAMERA 45
+#define UP_BUTTON_CAMERA 45
+#define DOWN_BUTTON_CAMERA 43
 
 StepMotor28BYJ48 camera_motor = StepMotor28BYJ48(STEPS_PER_REVOLUTION,
 IN1_CAMERA, IN2_CAMERA, IN3_CAMERA, IN4_CAMERA,
@@ -112,8 +112,8 @@ IN1_CAMERA, IN2_CAMERA, IN3_CAMERA, IN4_CAMERA,
 
 
 #define MOTOR_STEPS_CAMERA_FEEDFORWARD 200
-#define FORWARD_BUTTON_CAMERA 46
-#define BACKWARD_BUTTON_CAMERA 47
+#define FORWARD_BUTTON_CAMERA 47
+#define BACKWARD_BUTTON_CAMERA 46
 #define DIR 24
 #define STEP 25
 #define ENB 22
@@ -122,14 +122,6 @@ StepMotorA4988 feedfoward_camera_motor = StepMotorA4988(
   DIR, STEP, ENB,
   FORWARD_BUTTON_CAMERA, BACKWARD_BUTTON_CAMERA
 );
-
-// Relay
-/*
-  Botão que liga é o 2
-  Porta de ligar é o 3
-  e o sensor dht é o 12
-*/
-
 
 
 #define fanRelayPin 4
@@ -145,36 +137,6 @@ void switchFanStatus(){
 ISR(TIMER1_COMPA_vect){
   cooler.switchStatusByTemperature();
 }
-
-/**
- * Formato do arquivo enviado para o mestre
- * [
- *  // sensores de distancia
- *  {
- *    id,
- *    value
- *  },
- *  {
- *    id,
- *    value
- *  },
- *  {
- *    id,
- *    value
- *  },
- *  {
- *    id,
- *    value
- *  },
- *  {
- *    Temperatura,
- *    Humidade
- *  }
- *  {
- *    coolerIsOn
- *  }
- * ]
-*/
 
 Message messenger = Message();
 String message;
@@ -227,6 +189,7 @@ void loop() {
   prisma_motor.listenButtons();
   cilindrica_motor.listenButtons();
   camera_motor.listenButtons();
+  feedfoward_camera_motor.listenButtons();
   if (responseOption!=0 && !messageSent)
   {
     // Serial.println("ola");
