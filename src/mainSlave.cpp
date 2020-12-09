@@ -258,41 +258,4 @@ void loop() {
     }
   }
 
-
-  // sendMessage(messenger.serializeData(1, 2, 3, 4, 5, 6, true), 4);
-  // delay(1000);
-  // dataDoc["sensor1"] = 1;
-  // dataDoc["sensor2"] = 2;
-  // dataDoc["sensor3"] = 3;
-  // dataDoc["sensor4"] = 4;
-  // serializeJson(dataDoc, outputData);
-  // Serial.println(outputData);
-  // feedfoward_camera_motor.listenButtons();
-  // Serial.println(millis()-time);
-  // delay(1000);
-
-  // for (int i = 0; i < 10; i++)
-  // {
-  //   feedfoward_camera_motor.rotateAntiClockWise();
-  // }
-
-  // delay(1000);
-  // feedfoward_camera_motor.wakeUp();
-  // feedfoward_camera_motor.rotateClockWise();
-  // feedfoward_camera_motor.putToSleep();
-
-
-  // delay(1000);
-
-  // Serial.print("Distancia colimadora: ");
-  // Serial.println(distanceSensorsManager.getSensorDistance(0));
-  // delay(1000);
-  // Serial.print("Distancia Cilindrica: ");
-  // Serial.println(distanceSensorsManager.getSensorDistance(1));
-  // // delay(1000);
-  // Serial.print("Distancia Camera: ");
-  // Serial.println(distanceSensorsManager.getSensorDistance(2));
-  // // delay(1000);
-
-
 }
