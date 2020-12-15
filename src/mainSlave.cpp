@@ -179,8 +179,6 @@ unsigned long time;
 
 void loop()
 {
-  // time = millis();
-  // uint16_t teste = distanceSensorsManager.getSensorDistance(3);
   colimadora_motor.listenButtons();
   prisma_motor.listenButtons();
   cilindrica_motor.listenButtons();
@@ -188,7 +186,6 @@ void loop()
   feedfoward_camera_motor.listenButtons();
   if (responseOption != 0 && !messageSent)
   {
-    // Serial.println("ola");
     switch (responseOption)
     {
     case 1:

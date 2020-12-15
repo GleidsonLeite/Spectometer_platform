@@ -66,10 +66,6 @@ void StepMotorA4988::listenButtons()
 {
   byte clockwiseButtonState = digitalRead(this->CLOCKWISE_BUTTON_PIN);
   byte anticlockwiseButtonState = digitalRead(this->ANTICLOCKWISE_BUTTON_PIN);
-  // Serial.print(clockwiseButtonState);
-  // Serial.print("\t");
-  // Serial.print(anticlockwiseButtonState);
-  // Serial.println("");
   if (!clockwiseButtonState)
   {
     wakeUp();
